@@ -3,9 +3,9 @@ def temperature_conversion(Input, keep_decimals):
     OUTPUT = ""
     if Input[0:-1].isdigit() and (Input[-1] in ['C', 'c', 'F', 'f']) == True:
         if Input[-1] in ['F', 'f']:
-            OUTPUT = str((int(Input[0:-1]) - 32) * 0.5555555555555556) + "C"
+            OUTPUT = str((eval(Input[0:-1]) - 32) * 0.5555555555555556) + "C"
         else:
-            OUTPUT = str(int(Input[0:-1]) * 1.8 + 32) + "F"
+            OUTPUT = str(eval(Input[0:-1]) * 1.8 + 32) + "F"
 
         if keep_decimals == 0:
             return str(OUTPUT).split('.')[0] + str(OUTPUT).split('.')[1][:keep_decimals] + OUTPUT[-1]
@@ -17,9 +17,9 @@ def temperature_conversion(Input, keep_decimals):
 
     elif (Input[1:-1] + Input[-1]).isdigit() and Input[0] in ['C', 'c', 'F', 'f']:
         if Input[0] in ['F', 'f']:
-            OUTPUT = str((int(Input[1:-1] + Input[-1]) - 32) * 0.5555555555555556) + "C"
+            OUTPUT = str((eval(Input[1:-1] + Input[-1]) - 32) * 0.5555555555555556) + "C"
         else:
-            OUTPUT = str(int(Input[1:-1] + Input[-1]) * 1.8 + 32) + "F"
+            OUTPUT = str(eval(Input[1:-1] + Input[-1]) * 1.8 + 32) + "F"
 
         if keep_decimals == 0:
             return str(OUTPUT).split('.')[0] + str(OUTPUT).split('.')[1][:keep_decimals] + OUTPUT[-1]

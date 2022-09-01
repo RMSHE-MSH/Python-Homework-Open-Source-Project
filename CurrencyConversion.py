@@ -53,7 +53,7 @@ Currency_Type = ["cny", "eur", "gbp", "aud", "cad", "sgd", "hkd", "jpy"]
 CC = CurrencyConverter()
 for i in Currency_Type:
     CC.SetParameter(url, "usd", i)  # 设置参数(URL,原始货币类型,目标货币类型);
-    Result = CC.CurrencyCalculation("100", False)  # 转换货币(货币面额,反相);如果反相为True,则转换关系会反转;
+    Result = CC.CurrencyCalculation("1", False)  # 转换货币(货币面额,反相);如果反相为True,则转换关系会反转;
 
     # 打印结果;
     print("Current exchange rate: " + Result['ExchangeRate'] + ";\tusd to " + i + ": ", Result['Result'])
