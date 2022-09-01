@@ -1,6 +1,7 @@
 # Powered by RMSHE;
 # 2022.09.1;
 # 实时汇率获取&动态美元对主流货币的转换;
+# 通过爬取网络中的实时汇率来计算货币转换;
 import requests
 import re
 import time
@@ -49,11 +50,12 @@ class CurrencyConverter:
 
 
 # 本类的我定义的关键字,表示不同的主流货币类型;
+# (usd:美元)["人民币","欧元","英镑","澳大利亚元","加拿大元","新加坡元","港币","日元"];
 Currency_Type = ["cny", "eur", "gbp", "aud", "cad", "sgd", "hkd", "jpy"]
 CC = CurrencyConverter()
 for i in Currency_Type:
-    CC.SetParameter(url, "usd", i)  # 设置参数(URL,原始货币类型,目标货币类型);
-    Result = CC.CurrencyCalculation("1", False)  # 转换货币(货币面额,反相);如果反相为True,则转换关系会反转;
+    CC.SetParameter(url, "usd", i)  # 设置参数(URL,原始货币类型,目标货币类型);注:目前原始货币类型只能为美元;
+    Result = CC.CurrencyCalculation("1", False)  # 转换货币(货币面额,反相);如果反相为True,则转换方向会反转;
 
     # 打印结果;
     print("Current exchange rate: " + Result['ExchangeRate'] + ";\tusd to " + i + ": ", Result['Result'])

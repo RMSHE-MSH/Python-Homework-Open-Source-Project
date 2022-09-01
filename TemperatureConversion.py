@@ -1,4 +1,5 @@
 # Powered by RMSHE;
+# 2022.08.01;
 def temperature_conversion(Input, keep_decimals):
     OUTPUT = ""
     if Input[0:-1].isdigit() and (Input[-1] in ['C', 'c', 'F', 'f']) == True:
@@ -33,6 +34,7 @@ def temperature_conversion(Input, keep_decimals):
         return "input format error"
 
 
+# 核心算法就只有两行,其他的一堆都是为了滴水不漏的检查输入格式而存在的;
 # temperature_conversion("在此填入待转换数据",输出结果需要保留的小数位数);
 # 在此填入待转换数据的格式可以是:" C25, 25C, c25, 25c, F77, f77, 77F, 77f";
 # print(temperature_conversion2(input("Please enter temperature value & unit: "), 0));
