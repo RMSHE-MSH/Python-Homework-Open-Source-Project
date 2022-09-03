@@ -1,5 +1,6 @@
 # Powered by RMSHE;
-# 2022.08.01;
+# 2022.09.01;
+# 支持多种格式输入,支持自动格式检测,支持控制保留的小数位数;# Powered by RMSHE;
 def temperature_conversion(Input, keep_decimals):
     OUTPUT = ""
     if Input[0:-1].isdigit() and (Input[-1] in ['C', 'c', 'F', 'f']) == True:

@@ -8,7 +8,7 @@ def NarcissisticNumberJudge(num):
     result = 0
     for i in range(len(str(num))):
         result = int(result + math.pow(int(str(num)[i]), len(str(num))))
-        if result == num and result != 0:
+        if result == num:
             isNarcissisticNumber = True
     return isNarcissisticNumber
 
