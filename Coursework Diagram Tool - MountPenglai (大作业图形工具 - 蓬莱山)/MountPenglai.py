@@ -1,4 +1,4 @@
-'''-----------------------------------------------------------------------------
+'''---------------------------------------------------------------------------------
 Powered by RMSHE / 2022.09.08;
 
 将 turtle 的绘图逻辑更改为 Organ-Field GUI 样式;
@@ -7,8 +7,8 @@ turtle 的使用逻辑过于直观,因此造成了使用不便,翻了一遍文�
 还好基础该有的都有,我要重新将它封装成C++图形库的使用逻辑;
 
 项目代号: 蓬莱山(MountPenglai) / 生命周期: 一个月(大作业结束可能就不值得我继续维护了);
-还有,开发时间不足代码是赶出来的屎山能跑就行;
------------------------------------------------------------------------------'''
+还有,开发时间不足代码是赶出来的屎山能跑就行(这种意义不明的短期项目没必要花时间去优化代码结构);
+---------------------------------------------------------------------------------'''
 # 逻辑坐标是在程序中用于绘图的坐标体系;
 # 坐标默认的原点在窗口的左上角，X 轴向右为正，Y 轴向下为正，度量单位是点;
 
@@ -1279,6 +1279,11 @@ class MountPenglaiExamples:
             XT.append(int((R - 90) * cos(Second)))
             YT.append(int((R - 90) * sin(Second)))
 
+        Angle_Precompute = (2 * pi) / 60
+        Angle_H_Precompute = (2 * pi) / 12
+
+        AC = 180 / pi
+
         self.SelfMP.BeginBatchDraw()
         self.SelfMP.initgraph(Resolution, Resolution)
         setundobuffer(63)
@@ -1328,15 +1333,17 @@ class MountPenglaiExamples:
                     clear()
                     break
 
-                Angle_Second = t.second * (2 * pi) / 60
-                Angle_Minute = t.minute * (2 * pi) / 60 + Angle_Second / 60
-                Angle_Hour = t.hour * (2 * pi) / 12 + Angle_Minute / 12
+                Angle_Second = t.second * Angle_Precompute
+                Angle_Minute = t.minute * Angle_Precompute + Angle_Second / 60
+                Angle_Hour = t.hour * Angle_H_Precompute + Angle_Minute / 12
 
                 # // 计算时、分、秒针的坐标;
-                Second_Y = -(R - 62) * cos(Angle_Second) + halfResolution
-                Y0 = -(-R + 320) * cos(Angle_Second) + halfResolution
-                Second_X = (R - 62) * sin(Angle_Second) + halfResolution
-                X0 = (-R + 320) * sin(Angle_Second) + halfResolution
+                Angle_Second_cos = cos(Angle_Second)
+                Angle_Second_sin = sin(Angle_Second)
+                Second_Y = -(R - 62) * Angle_Second_cos + halfResolution
+                Y0 = -(-R + 320) * Angle_Second_cos + halfResolution
+                Second_X = (R - 62) * Angle_Second_sin + halfResolution
+                X0 = (-R + 320) * Angle_Second_sin + halfResolution
 
                 Minute_hand_Y = -(R - 90) * cos(Angle_Minute) + halfResolution
                 Minute_hand_X = (R - 90) * sin(Angle_Minute) + halfResolution
@@ -1373,12 +1380,13 @@ class MountPenglaiExamples:
                 self.SelfMP.solidcircle(halfResolution, halfResolution, halfResolution0_035)
 
                 # // 秒针;
+                ASAC = Angle_Second * AC
                 pensize(4)
-                pencolor(self.SelfMPCS.HSV(Angle_Second * 180 / pi, 0.5, 0.8))
+                pencolor(self.SelfMPCS.HSV(ASAC, 0.5, 0.8))
                 self.SelfMP.line(X0, Y0, Second_X, Second_Y)
 
                 # // 秒针圆心;
-                fillcolor(self.SelfMPCS.HSV(Angle_Second * 180 / pi, 0.5, 0.8))
+                fillcolor(self.SelfMPCS.HSV(ASAC, 0.5, 0.8))
                 self.SelfMP.solidcircle(halfResolution, halfResolution, halfResolution0_021)
 
                 # // 圆心;
@@ -1405,8 +1413,6 @@ class MountPenglaiExamples:
             pensize(14)
             self.SelfMP.line(halfResolution + 5, halfResolution + 5, Hour_hand_X + 5, Hour_hand_Y + 5)
             '''
-
-    pass
 
 
 '''------------------------------------------------------------------------------------------
