@@ -9,9 +9,14 @@ turtle 的使用逻辑过于直观,因此造成了使用不便,翻了一遍文�
 项目代号: 蓬莱山(MountPenglai) / 生命周期: 一个月(大作业结束可能就不值得我继续维护了);
 还有,开发时间不足代码是赶出来的屎山能跑就行;
 -----------------------------------------------------------------------------'''
+# 逻辑坐标是在程序中用于绘图的坐标体系;
+# 坐标默认的原点在窗口的左上角，X 轴向右为正，Y 轴向下为正，度量单位是点;
+
+
 from turtle import *
 from math import *
 import _thread
+import time
 
 
 # 色彩变换是图像处理中最重要的一环
@@ -23,6 +28,21 @@ class MPColorSystem:
 
     # HSV to HEX; More details on HSV: https://en.wikipedia.org/wiki/HSL_and_HSV
     def HSV(self, H, S, V):
+        if H > 360.0:
+            H = H - 360.0
+        if H < 0.0:
+            H = H + 360.0
+
+        if S > 1.0:
+            S = S - 1.0
+        if S < 0.0:
+            S = S + 1.0
+
+        if V > 1.0:
+            V = V - 1.0
+        if V < 0.0:
+            V = V + 1.0
+
         R, G, B = self.HSVtoRGB(H, S, V)
         return self.RGB(R, G, B)
 
@@ -447,11 +467,18 @@ class MPColorSystem:
 
 
 class MountPenglai:
+    SelfMPCS = MPColorSystem()
+
     canvwidth = None
     canvheight = None
+    backgroundcolor = "#282c34"
+    DefaultEllipticCurvePrecision = 1
 
     # Initialize the canvas;
-    def initialize(self, width, height, BGcolor=None):
+    # 初始化型表观海龟灭绝处理器;
+    def initgraph(self, width, height, BGcolor=None):
+        setup(width + 20, height + 20)
+        title("RMSHE MountPenglai for Turtle")
         screensize(width, height)
         speed("fastest")
         hideturtle()
@@ -462,9 +489,100 @@ class MountPenglai:
             bgcolor("#282c34")
         else:
             bgcolor(BGcolor)
+            self.backgroundcolor = BGcolor
 
         pencolor("#abb2bf")
         fillcolor("#70a1ff")
+        pass
+
+    # 开始批量绘图. 执行后,任何绘图操作都将暂时不输出到绘图窗口上,直到执行 FlushBatchDraw 或 EndBatchDraw 才将之前的绘图输出;
+    def BeginBatchDraw(self):
+        tracer(False)
+        pass
+
+    # 执行未完成的绘制任务; 执行一次 TurtleScreen 刷新. 在禁用追踪时使用;
+    def FlushBatchDraw(self):
+        update()
+        pass
+
+    # 结束批量绘制，并执行未完成的绘制任务;
+    def EndBatchDraw(self):
+        tracer(True)
+        update()
+        pass
+
+    # 清空矩形区域;
+    # Clear the rectangular area(Specify the coordinates of the four vertices of the rectangle);
+    def clearrectangle(self, left, top, right, bottom, angle=0, xbase=None, ybase=None):
+        OriginalColor = [pencolor(), fillcolor()]
+        fillcolor(self.backgroundcolor)
+        self.solidrectangle(left, top, right, bottom, angle, xbase, ybase)
+        pencolor(OriginalColor[0])
+        fillcolor(OriginalColor[1])
+        pass
+
+    # 清空圆角矩形区域;
+    # clear a rounded rectangular region;
+    def clearroundrect(self, left, top, right, bottom, radius, angle=0, xbase=None, ybase=None):
+        OriginalColor = [pencolor(), fillcolor()]
+        fillcolor(self.backgroundcolor)
+
+        self.solidroundrect(left, top, right, bottom, radius, angle, xbase, ybase)
+
+        pencolor(OriginalColor[0])
+        fillcolor(OriginalColor[1])
+        pass
+
+    # 清空圆形区域;
+    # clear circular area;
+    def clearcircle(self, x, y, radius):
+        OriginalColor = [pencolor(), fillcolor()]
+        fillcolor(self.backgroundcolor)
+        self.solidcircle(x, y, radius)
+        pencolor(OriginalColor[0])
+        fillcolor(OriginalColor[1])
+        pass
+
+    # 清空椭圆区域;
+    # clear ellipse area;
+    def clearellipse(self, left, top, right, bottom, angle=0, xbase=None, ybase=None, steps=DefaultEllipticCurvePrecision):
+        OriginalColor = [pencolor(), fillcolor()]
+        fillcolor(self.backgroundcolor)
+
+        self.solidellipse(left, top, right, bottom, angle, xbase, ybase, steps)
+
+        pencolor(OriginalColor[0])
+        fillcolor(OriginalColor[1])
+        pass
+
+    # 清空扇形区域;
+    # Clear a sector region;
+    def clearpie(self, left, top, right, bottom, stangle=0, endangle=360, angle=0, xbase=None, ybase=None):
+        OriginalColor = [pencolor(), fillcolor()]
+        fillcolor(self.backgroundcolor)
+
+        self.solidpie(left, top, right, bottom, stangle, endangle, angle, xbase, ybase)
+
+        pencolor(OriginalColor[0])
+        fillcolor(OriginalColor[1])
+        pass
+
+    # 清空规则的多边形区域;
+    # clear a regular polygon region;
+    def clearpolygon(self, x, y, radius, steps=72, angle=0, xbase=None, ybase=None):
+        OriginalColor = [pencolor(), fillcolor()]
+        fillcolor(self.backgroundcolor)
+
+        self.solidpolygon(x, y, radius, steps, angle, xbase, ybase)
+
+        pencolor(OriginalColor[0])
+        fillcolor(OriginalColor[1])
+        pass
+
+    # 使用当前背景色清空画布;
+    # Used to clear the drawing canvas with current background color
+    def clearcanvas(self):
+        self.clearrectangle(0, 0, self.canvwidth, self.canvheight)
         pass
 
     # 进行伽利略变换: 将画布原点定在窗口中央是不合适的,一旦涉及到坐标的矩阵变换(特别是旋转)时就要考虑正负,这很麻烦;
@@ -494,13 +612,13 @@ class MountPenglai:
 
     # 画点(点的坐标,点的视觉半径)
     # draw dots;
-    def putpixel(self, x, y, radius=0.5):
-        self.teleport(x, y + radius)
+    def putpixel(self, x, y, radius=2):
+        self.teleport(x, y)
 
         pencolor(fillcolor())
         width(0)
         begin_fill()
-        circle(radius)
+        dot(radius)
         end_fill()
         pass
 
@@ -531,7 +649,7 @@ class MountPenglai:
 
         pass
 
-    # 画无填充矩形;
+    # 画无填充矩形(矩形四个顶点坐标,旋转角度,旋转基点);
     # draw unfilled rectangle(Specify the coordinates of the four vertices of the rectangle, Rotation angle, Rotation base point);
     def rectangle(self, left, top, right, bottom, angle=0, xbase=None, ybase=None):
         if angle != 0:
@@ -556,7 +674,7 @@ class MountPenglai:
             self.line(right, top, left, top)
         pass
 
-    # 画无边框的填充矩形;
+    # 画无边框的填充矩形(矩形四个顶点坐标,旋转角度,旋转基点);
     # draw a Solid-rectangle;
     def solidrectangle(self, left, top, right, bottom, angle=0, xbase=None, ybase=None):
         pencolor(fillcolor())
@@ -566,11 +684,116 @@ class MountPenglai:
         end_fill()
         pass
 
-    # 画有边框的填充矩形;
+    # 画有边框的填充矩形(矩形四个顶点坐标,旋转角度,旋转基点);
     # Draw a Fill-rectangle;
     def fillrectangle(self, left, top, right, bottom, angle=0, xbase=None, ybase=None):
         begin_fill()
         self.rectangle(left, top, right, bottom, angle, xbase, ybase)
+        end_fill()
+        pass
+
+    # 画无填充的圆角矩形(矩形四个顶点坐标,圆角半径,旋转角度,旋转基点);
+    # Draw a rounded rectangle with no fill;
+    def roundrect(self, left, top, right, bottom, radius, angle=0, xbase=None, ybase=None):
+        if radius + radius > right - left:
+            radius = 0.5 * (right - left)
+        if radius + radius > bottom - top:
+            radius = 0.5 * (bottom - top)
+
+        RoundrectPoints = []
+        global _left, _top, _right, _bottom, stangle, endangle
+        for i in range(4):
+            if i == 0:
+                _left = left
+                _top = top
+                _right = left + 2 * radius
+                _bottom = top + 2 * radius
+
+                stangle = 180
+                endangle = 270
+            elif i == 1:
+                _left = left
+                _top = bottom - 2 * radius
+                _right = left + 2 * radius
+                _bottom = bottom
+
+                stangle = 90
+                endangle = 180
+            elif i == 2:
+                _left = right - 2 * radius
+                _top = bottom - 2 * radius
+                _right = right
+                _bottom = bottom
+
+                stangle = 0
+                endangle = 91
+            elif i == 3:
+                _left = right - 2 * radius
+                _top = top
+                _right = right
+                _bottom = top + 2 * radius
+
+                stangle = 270
+                endangle = 360
+
+            a = (_right - _left) / 2
+            b = (_bottom - _top) / 2
+            c = pi / 180
+            d = _left + a
+            e = _top + b
+
+            _thread.start_new_thread(self.EllipseXEngine, (a, c, d, self.DefaultEllipticCurvePrecision, stangle, endangle))
+            _thread.start_new_thread(self.EllipseYEngine, (b, c, e, self.DefaultEllipticCurvePrecision, stangle, endangle))
+
+            while True:
+                if self.EllipseEngineState[0] == True and self.EllipseEngineState[1] == True:
+                    self.EllipsePoints.reverse()
+
+                    RoundrectPoints.extend(self.EllipsePoints)
+                    self.EllipsePoints.clear()
+                    self.EllipseEngineState = [False, False]
+                    break
+
+        RoundrectPoints.append(RoundrectPoints[0])
+        RoundrectPoints.append(RoundrectPoints[1])
+
+        if angle != 0:
+            EllipsePointsTransform = []
+            if xbase is None and ybase is None:
+                if xbase is None and ybase is None:
+                    xbase = int((right - left) / 2) + left
+                    ybase = int((bottom - top) / 2) + top
+
+            for i in range(0, len(RoundrectPoints), 2):
+                EllipsePointsTransformTemp = self.RotationMatrix(RoundrectPoints[i], RoundrectPoints[i + 1], xbase, ybase, angle)
+                EllipsePointsTransform.append(EllipsePointsTransformTemp[0])
+                EllipsePointsTransform.append(EllipsePointsTransformTemp[1])
+
+            self.polyline(EllipsePointsTransform)
+        else:
+            self.polyline(RoundrectPoints)
+
+        pass
+
+    # 画无边框的填充圆角矩形(矩形四个顶点坐标,圆角半径,旋转角度,旋转基点);
+    # Draw a filled rounded rectangle without a border;
+    def solidroundrect(self, left, top, right, bottom, radius, angle=0, xbase=None, ybase=None):
+        pencolor(fillcolor())
+        width(0)
+        begin_fill()
+
+        self.roundrect(left, top, right, bottom, radius, angle, xbase, ybase)
+
+        end_fill()
+        pass
+
+    # 画有边框的填充圆角矩形(矩形四个顶点坐标,圆角半径,旋转角度,旋转基点);
+    # Draw a filled rounded rectangle with a border;
+    def fillroundrect(self, left, top, right, bottom, radius, angle=0, xbase=None, ybase=None):
+        begin_fill()
+
+        self.roundrect(left, top, right, bottom, radius, angle, xbase, ybase)
+
         end_fill()
         pass
 
@@ -628,34 +851,48 @@ class MountPenglai:
     EllipseEngineState = [False, False]  # List of thread state flags for ellipse calculate;
 
     # Ellipse calculate 'X' Thread;
-    def EllipseXEngine(self, a, c, d, steps):
+    def EllipseXEngine(self, a, c, d, steps, stangle=0, endangle=360):
+        i = stangle
+        endangle = endangle + 1
         j = 0
-        for i in range(0, 361, steps):
+        while True:
             self.EllipsePoints.insert(j, a * cos(c * i) + d)
+
+            i += steps
             j += 2
+            if i >= endangle:
+                break
+
         self.EllipseEngineState[0] = True
         pass
 
     # Ellipse calculate 'Y' Thread;
-    def EllipseYEngine(self, b, c, e, steps):
+    def EllipseYEngine(self, b, c, e, steps, stangle=0, endangle=360):
+        i = stangle
+        endangle = endangle + 1
         j = 1
-        for i in range(0, 361, steps):
+        while True:
             self.EllipsePoints.insert(j, b * sin(c * i) + e)
+
+            i += steps
             j += 2
+            if i >= endangle:
+                break
+
         self.EllipseEngineState[1] = True
         pass
 
-    # 画无填充的椭圆(椭圆外切矩形的左上角 x 坐标,椭圆外切矩形的左上角 y 坐标,椭圆外切矩形的右下角 x 坐标,椭圆外切矩形的右下角 y 坐标,旋转角度,旋转基点,绘图计算精度);
+    # 画无填充的椭圆(椭圆外切矩形,旋转角度,旋转基点,圆弧起始角角度,圆弧终止角角度,绘图计算精度[值越小越精细]);
     # draw an unfilled ellipse(Specifies the rectangle circumscribing the ellipse);
-    def ellipse(self, left, top, right, bottom, angle=0, xbase=None, ybase=None, steps=6):
+    def ellipse(self, left, top, right, bottom, angle=0, xbase=None, ybase=None, stangle=0, endangle=360, steps=DefaultEllipticCurvePrecision):
         a = (right - left) / 2
         b = (bottom - top) / 2
         c = pi / 180
         d = left + a
         e = top + b
 
-        _thread.start_new_thread(self.EllipseXEngine, (a, c, d, steps))
-        _thread.start_new_thread(self.EllipseYEngine, (b, c, e, steps))
+        _thread.start_new_thread(self.EllipseXEngine, (a, c, d, steps, stangle, endangle))
+        _thread.start_new_thread(self.EllipseYEngine, (b, c, e, steps, stangle, endangle))
 
         while True:
             if self.EllipseEngineState[0] == True and self.EllipseEngineState[1] == True:
@@ -664,9 +901,8 @@ class MountPenglai:
         if angle != 0:
             EllipsePointsTransform = []
             if xbase is None and ybase is None:
-                if xbase is None and ybase is None:
-                    xbase = int((right - left) / 2) + left
-                    ybase = int((bottom - top) / 2) + top
+                xbase = int((right - left) / 2) + left
+                ybase = int((bottom - top) / 2) + top
 
             for i in range(0, len(self.EllipsePoints), 2):
                 EllipsePointsTransformTemp = self.RotationMatrix(self.EllipsePoints[i], self.EllipsePoints[i + 1], xbase, ybase, angle)
@@ -682,29 +918,157 @@ class MountPenglai:
 
         pass
 
-    # 画无边框的填充椭圆(椭圆外切矩形,旋转角度,旋转基点,绘图计算精度);
+    # 画无边框的填充椭圆(椭圆外切矩形,旋转角度,旋转基点,圆弧起始角角度,圆弧终止角角度,绘图计算精度[值越小越精细]);
     # draw an Solid-ellipse;
-    def solidellipse(self, left, top, right, bottom, angle=0, xbase=None, ybase=None, steps=6):
+    def solidellipse(self, left, top, right, bottom, angle=0, xbase=None, ybase=None, stangle=0, endangle=360, steps=DefaultEllipticCurvePrecision):
         pencolor(fillcolor())
         width(0)
         begin_fill()
 
-        self.ellipse(left, top, right, bottom, angle, xbase, ybase, steps)
+        self.ellipse(left, top, right, bottom, angle, xbase, ybase, stangle, endangle, steps)
 
         end_fill()
         pass
 
-    # 画有边框的填充椭圆(椭圆外切矩形,旋转角度,旋转基点,绘图计算精度);
+    # 画有边框的填充椭圆(椭圆外切矩形,旋转角度,旋转基点,圆弧起始角角度,圆弧终止角角度,绘图计算精度[值越小越精细]);
     # Draw a filled ellipse with a border;
-    def fillellipse(self, left, top, right, bottom, angle=0, xbase=None, ybase=None, steps=6):
+    def fillellipse(self, left, top, right, bottom, angle=0, xbase=None, ybase=None, stangle=0, endangle=360, steps=DefaultEllipticCurvePrecision):
         begin_fill()
 
-        self.ellipse(left, top, right, bottom, angle, xbase, ybase, steps)
+        self.ellipse(left, top, right, bottom, angle, xbase, ybase, stangle, endangle, steps)
 
         end_fill()
         pass
 
-    def recgradientfill(self, REC, RGB):
+    # 画椭圆弧(椭圆外切矩形,圆弧起始角角度,圆弧终止角角度);
+    # Draw ellipse arc;
+    def arc(self, left, top, right, bottom, stangle=0, endangle=360):
+        self.ellipse(left, top, right, bottom, 0, None, None, stangle, endangle)
+        pass
+
+    # 画无填充的扇形(扇形外切矩形四个顶点坐标,扇形的起始角的角度,扇形的终止角的角度,旋转角度,旋转基点)
+    # Draw a sector without filling;
+    def pie(self, left, top, right, bottom, stangle=0, endangle=360, angle=0, xbase=None, ybase=None):
+        a = (right - left) / 2
+        b = (bottom - top) / 2
+        c = pi / 180
+        d = left + a
+        e = top + b
+
+        _thread.start_new_thread(self.EllipseXEngine, (a, c, d, self.DefaultEllipticCurvePrecision, stangle, endangle))
+        _thread.start_new_thread(self.EllipseYEngine, (b, c, e, self.DefaultEllipticCurvePrecision, stangle, endangle))
+
+        while True:
+            if self.EllipseEngineState[0] == True and self.EllipseEngineState[1] == True:
+                break
+
+        _xbase = int((right - left) / 2) + left
+        _ybase = int((bottom - top) / 2) + top
+        self.EllipsePoints.append(_xbase)
+        self.EllipsePoints.append(_ybase)
+
+        if angle != 0:
+            EllipsePointsTransform = []
+
+            if xbase is None and ybase is None:
+                xbase = _xbase
+                ybase = _ybase
+
+            for i in range(0, len(self.EllipsePoints), 2):
+                EllipsePointsTransformTemp = self.RotationMatrix(self.EllipsePoints[i], self.EllipsePoints[i + 1], xbase, ybase, angle)
+                EllipsePointsTransform.append(EllipsePointsTransformTemp[0])
+                EllipsePointsTransform.append(EllipsePointsTransformTemp[1])
+
+            EllipsePointsTransform.append(EllipsePointsTransform[0])
+            EllipsePointsTransform.append(EllipsePointsTransform[1])
+            self.polyline(EllipsePointsTransform)
+        else:
+            self.EllipsePoints.append(self.EllipsePoints[0])
+            self.EllipsePoints.append(self.EllipsePoints[1])
+            self.polyline(self.EllipsePoints)
+
+        self.EllipsePoints.clear()
+        self.EllipseEngineState = [False, False]
+        pass
+
+    # 画无边框的填充扇形(扇形外切矩形四个顶点坐标,扇形的起始角的角度,扇形的终止角的角度,旋转角度,旋转基点)
+    # Draw a filled sector without a border;
+    def solidpie(self, left, top, right, bottom, stangle=0, endangle=360, angle=0, xbase=None, ybase=None):
+        pencolor(fillcolor())
+        width(0)
+        begin_fill()
+
+        self.pie(left, top, right, bottom, stangle, endangle, angle, xbase, ybase)
+
+        end_fill()
+        pass
+
+    # 画有边框的填充扇形(扇形外切矩形四个顶点坐标,扇形的起始角的角度,扇形的终止角的角度,旋转角度,旋转基点)
+    # Draw a filled sector with a border;
+    def fillpie(self, left, top, right, bottom, stangle=0, endangle=360, angle=0, xbase=None, ybase=None):
+        begin_fill()
+
+        self.pie(left, top, right, bottom, stangle, endangle, angle, xbase, ybase)
+
+        end_fill()
+        pass
+
+    # 画无填充的圆(圆心 x 坐标,圆心 y 坐标,圆的半径);
+    # draw unfilled circle;
+    def Circle(self, x, y, radius):
+        steps = 0.3 * radius + 45
+        self.teleport(x, y + radius)
+        circle(radius, None, int(steps))
+        pass
+
+    # 画无边框的填充圆(圆心 x 坐标,圆心 y 坐标,圆的半径)
+    # Draw a filled circle without borders;
+    def solidcircle(self, x, y, radius):
+        self.teleport(x, y)
+        size = pensize()
+        pencolor(fillcolor())
+        width(0)
+        begin_fill()
+
+        self.Circle(x, y, radius)
+
+        end_fill()
+        width(size)
+        pass
+
+    # 画有边框的填充圆(圆心 x 坐标,圆心 y 坐标,圆的半径)
+    # Draw a filled circle with a border
+    def fillcircle(self, x, y, radius):
+        begin_fill()
+
+        self.Circle(x, y, radius)
+
+        end_fill()
+        pass
+
+    # 获取点的颜色(点的坐标);
+    # Gets the color of the point;
+    def getpixel(self, x, y):
+        _x, _y = self.GalileanTransformation(x, y)
+
+        canvas = getcanvas()
+        ids = canvas.find_overlapping(_x, -_y, _x, -_y)
+
+        if ids:  # if list is not empty
+            index = ids[-1]
+            color = canvas.itemcget(index, "fill")
+            if color != '':
+                return color.lower()
+
+        return self.backgroundcolor  # default color
+
+    # 在指定区域内以指定格式输出字符串(指定输出坐标,文本内容,字体,字号,字形,文本对齐方式);
+    # Output a string in the specified format within the specified area;
+    def drawtext(self, x, y, TextStr="", fontname="微软雅黑", fontsize=12, fonttype="normal", align="left"):
+        font = (fontname, fontsize, fonttype)
+
+        self.teleport(x, y)
+        write(TextStr, False, align, font)
         pass
 
     # 将画布导出为矢量图(文件名);
@@ -714,14 +1078,344 @@ class MountPenglai:
         IMG.getcanvas().postscript(file=str(fileName) + "_RMSHE_MountPenglai_Vector.eps")
         pass
 
+    def radialgradient(self, x, y, StartRadius, EndRadius, StartColorHex, EndColorHex, steps=1.0):
+        pensize(int(steps) + 1)
+
+        RadiusDifference = float(abs(EndRadius - StartRadius))
+
+        SH, SS, SV = self.SelfMPCS.GetHSVValue(StartColorHex)
+        EH, ES, EV = self.SelfMPCS.GetHSVValue(EndColorHex)
+
+        dH = ((EH - SH) / RadiusDifference) * steps
+        dS = ((ES - SS) / RadiusDifference) * steps
+        dV = ((EV - SV) / RadiusDifference) * steps
+
+        # SR, SG, SB = self.SelfMPCS.GetRGBValue(StartColorHex)
+        # ER, EG, EB = self.SelfMPCS.GetRGBValue(EndColorHex)
+
+        # dR = ((ER - SR) / RadiusDifference) * steps
+        # dG = ((EG - SG) / RadiusDifference) * steps
+        # dB = ((EB - SB) / RadiusDifference) * steps
+
+        Hue = SH
+        Saturation = SS
+        Value = SV
+        Radius = StartRadius
+
+        # self.BeginBatchDraw()
+        while True:
+            Hue = Hue + dH
+            Saturation = Saturation + dS
+            Value = Value + dV
+
+            pencolor(self.SelfMPCS.HSV(Hue, Saturation, Value))
+            self.Circle(x, y, Radius)
+
+            if EndRadius - StartRadius > 0:
+                Radius = Radius + steps
+                if Radius >= EndRadius:
+                    break
+            else:
+                Radius = Radius - steps
+                if Radius <= EndRadius:
+                    break
+
+        # self.FlushBatchDraw()
+        pass
+
+
+class MountPenglaiMath:
+    def COMPLEXSUM(self, a=(), b=()):
+        return [a[0] + b[0], a[1] + b[1]]
+
+    def COMPLEXMUL(self, a=(), b=()):
+        return [a[0] * b[0] - a[1] * b[1], a[1] * b[0] + a[0] * b[1]]
+
+
+class MountPenglaiExamples:
+    SelfMP = MountPenglai()
+    SelfMPCS = MPColorSystem()
+    SelfMath = MountPenglaiMath()
+
+    # 渲染伪3D平面;
+    def MPE01(self, Resolution=400):
+        self.SelfMP.initgraph(Resolution, Resolution)
+        self.SelfMP.drawtext(Resolution * 0.5, Resolution * 0.5 + 12, "正在渲染", "微软雅黑", 24, "normal", "center")
+
+        self.SelfMP.BeginBatchDraw()
+
+        for i in range(0, Resolution):
+            for j in range(0, Resolution):
+                s = 3.0 / (j + 99)
+                HD = (int((i + Resolution) * s + j * s) % 2 + int((Resolution * 2 - i) * s + j * s) % 2) * 127
+
+                fillcolor(self.SelfMPCS.RGB(HD, HD, HD))
+                self.SelfMP.putpixel(i, j)
+
+            if i % 16 == 0:
+                self.SelfMP.FlushBatchDraw()
+
+        self.SelfMP.EndBatchDraw()
+        pass
+
+    # CircleLineLink;
+    def MPE02(self, k_END=0, steps=3, Resolution=900):
+        self.SelfMP.initgraph(Resolution, Resolution)
+        for k in range(k_END):
+            self.SelfMP.BeginBatchDraw()
+            clear()
+
+            origin = [Resolution * 0.5, Resolution * 0.5]
+            CirclePoints = []
+
+            for i in range(0, 360, steps):
+                x, y = self.SelfMP.RotationMatrix(1.9 * origin[0], origin[1], origin[0], origin[1], i)
+                self.SelfMP.putpixel(x, y, 6)
+
+                CirclePoints.append(int(x))
+                CirclePoints.append(int(y))
+
+            pensize(1)
+
+            i = 0
+            j = 0
+            H = 0
+            while True:
+                m = k * i % int(360 / steps)
+                pencolor(self.SelfMPCS.HSV(H, 0.6, 0.8))
+                self.SelfMP.line(CirclePoints[i], CirclePoints[i + 1], CirclePoints[m], CirclePoints[m + 1])
+                self.SelfMP.FlushBatchDraw()
+
+                j += 1
+                H += steps
+                if j == int(len(CirclePoints) / 2) - 1:
+                    break
+                i += 2
+
+            self.SelfMP.EndBatchDraw()
+
+    # [分形] 渲染 Mandelbrot Set (曼德布洛特集);
+    def MPE03(self, width=400, height=300):
+        self.SelfMP.initgraph(width, height)
+        self.SelfMP.drawtext(width * 0.5, height * 0.5 + 12, "正在渲染", "微软雅黑", 24, "normal", "center")
+
+        self.SelfMP.BeginBatchDraw()
+
+        c_re = 0
+        c_im = 0
+        z_re = 0
+        z_im = 0
+        for x in range(0, width):
+            c_re = -2.1 + (1.1 - (-2.1)) * (x / width)
+            for y in range(0, height):
+                c_im = -1.2 + (1.2 - -1.2) * (y / height)
+                z_re = z_im = 0
+
+                H = 0
+                for k in range(0, 180):
+                    H = k
+                    if z_re * z_re + z_im * z_im > 4.0:
+                        break
+
+                    z_re, z_im = self.SelfMath.COMPLEXSUM(self.SelfMath.COMPLEXMUL((z_re, z_im), (z_re, z_im)), (c_re, c_im))
+
+                fillcolor(self.SelfMPCS.HSV(float(((H << 5) % 360)) + 60, 1, 1))
+                self.SelfMP.putpixel(x, y)
+
+            if x % 16 == 0:
+                self.SelfMP.FlushBatchDraw()
+
+        self.SelfMP.EndBatchDraw()
+        pass
+
+    # Organ-Field GUI 风格时钟(我把我一年半前的祖传C++代码移植过来了);
+    def MPE04(self, Resolution=900):
+        from datetime import datetime
+        halfResolution = 0.5 * Resolution
+        Resolution0_1 = 0.1 * Resolution
+        Resolution0_3 = 0.3 * Resolution
+        R = Resolution0_4 = 0.4 * Resolution
+        Resolution0_45 = 0.45 * Resolution
+        halfResolution0_01 = 0.01 * halfResolution
+        halfResolution0_021 = 0.021 * halfResolution
+        halfResolution0_035 = 0.035 * halfResolution
+        halfResolution0_04 = 0.04 * halfResolution
+        wochentag = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
+
+        SX0 = []
+        SY0 = []
+        SXS = []
+        SYS = []
+        Second = 0
+        while Second < 2 * pi:
+            Second = (2 * pi / 60) + Second
+
+            SXS.append(int((R - 20) * cos(Second)))
+            SX0.append(int((R - 40) * cos(Second)))
+
+            SYS.append(int((R - 20) * sin(Second)))
+            SY0.append(int((R - 40) * sin(Second)))
+
+        BX0 = []
+        BY0 = []
+        BXS = []
+        BYS = []
+        Second = 0
+        while Second < 2 * pi:
+            Second = (2 * pi / 12) + Second
+
+            BXS.append(int((R - 20) * cos(Second)))
+            BX0.append(int((R - 52) * cos(Second)))
+
+            BYS.append(int((R - 20) * sin(Second)))
+            BY0.append(int((R - 52) * sin(Second)))
+
+        XT = []
+        YT = []
+        Second = 0
+        while Second < 2 * pi:
+            Second = (2 * pi / 12) + Second
+
+            XT.append(int((R - 90) * cos(Second)))
+            YT.append(int((R - 90) * sin(Second)))
+
+        self.SelfMP.BeginBatchDraw()
+        self.SelfMP.initgraph(Resolution, Resolution)
+        setundobuffer(63)
+        while True:
+            self.SelfMP.radialgradient(halfResolution, halfResolution, Resolution0_4, Resolution0_45, "#23272e", "#282c34", 2)
+
+            fillcolor("#313640")
+            self.SelfMP.solidcircle(halfResolution, halfResolution, Resolution0_4)
+
+            self.SelfMP.radialgradient(halfResolution, halfResolution, Resolution0_3, Resolution0_1, "#313640", "#282c34", 2)
+            fillcolor("#282c34")
+            self.SelfMP.solidcircle(halfResolution, halfResolution, Resolution0_1)
+
+            pensize(4)
+            pencolor("#737780")
+            for i in range(60):
+                self.SelfMP.line(SX0[i] + halfResolution, SY0[i] + halfResolution, SXS[i] + halfResolution, SYS[i] + halfResolution)
+
+            pensize(8)
+            pencolor("#737780")
+            for i in range(12):
+                self.SelfMP.line(BX0[i] + halfResolution, BY0[i] + halfResolution, BXS[i] + halfResolution, BYS[i] + halfResolution)
+
+            pencolor("#abb2bf")
+            TextNum = 4
+            for i in range(12):
+                if TextNum > 12:
+                    TextNum = 1
+                self.SelfMP.drawtext(XT[i] + halfResolution, YT[i] + halfResolution + 21, str(int(TextNum)), "微软雅黑", 24, "normal", "center")
+                TextNum += 1
+
+            pencolor("#676b73")
+            self.SelfMP.drawtext(halfResolution, halfResolution - 0.3 * R, "R M S H E", "微软雅黑", 24, "normal", "center")
+
+            t1 = datetime.today()
+            self.SelfMP.drawtext(halfResolution, halfResolution + 26 + 0.3 * R, wochentag[t1.weekday()], "微软雅黑", 24, "normal", "center")
+
+            MinuteNLast = MinuteNow = t1.minute
+            while True:
+                # // 计算时、分、秒针的弧度值;
+                t = datetime.today()
+                # Angle_MicroSecond = t.microsecond * (2 * pi) / 60
+                # Angle_Second = t.second * (2 * pi) / 60 + Angle_MicroSecond * 0.000001
+
+                MinuteNow = t.minute
+                if MinuteNow - MinuteNLast == 2:
+                    clear()
+                    break
+
+                Angle_Second = t.second * (2 * pi) / 60
+                Angle_Minute = t.minute * (2 * pi) / 60 + Angle_Second / 60
+                Angle_Hour = t.hour * (2 * pi) / 12 + Angle_Minute / 12
+
+                # // 计算时、分、秒针的坐标;
+                Second_Y = -(R - 62) * cos(Angle_Second) + halfResolution
+                Y0 = -(-R + 320) * cos(Angle_Second) + halfResolution
+                Second_X = (R - 62) * sin(Angle_Second) + halfResolution
+                X0 = (-R + 320) * sin(Angle_Second) + halfResolution
+
+                Minute_hand_Y = -(R - 90) * cos(Angle_Minute) + halfResolution
+                Minute_hand_X = (R - 90) * sin(Angle_Minute) + halfResolution
+
+                Hour_hand_Y = -(R - 120) * cos(Angle_Hour) + halfResolution
+                Hour_hand_X = (R - 120) * sin(Angle_Hour) + halfResolution
+
+                # //指针圆心投影;
+                fillcolor("#23272e")
+                self.SelfMP.solidcircle(halfResolution + 3, halfResolution + 3, halfResolution0_04)
+
+                # //分针投影;
+                pencolor("#282c34")
+                pensize(12)
+                self.SelfMP.line(halfResolution + 5, halfResolution + 5, Minute_hand_X + 5, Minute_hand_Y + 5)
+
+                # //时针投影;
+                pencolor("#23272e")
+                pensize(14)
+                self.SelfMP.line(halfResolution + 5, halfResolution + 5, Hour_hand_X + 5, Hour_hand_Y + 5)
+
+                # // 时针;
+                pensize(12)
+                pencolor("#959ba6")
+                self.SelfMP.line(halfResolution, halfResolution, Hour_hand_X, Hour_hand_Y)
+
+                # // 分针;
+                pensize(8)
+                pencolor("#abb2bf")
+                self.SelfMP.line(halfResolution, halfResolution, Minute_hand_X, Minute_hand_Y)
+
+                # // 分针圆心;
+                fillcolor("#abb2bf")
+                self.SelfMP.solidcircle(halfResolution, halfResolution, halfResolution0_035)
+
+                # // 秒针;
+                pensize(4)
+                pencolor(self.SelfMPCS.HSV(Angle_Second * 180 / pi, 0.5, 0.8))
+                self.SelfMP.line(X0, Y0, Second_X, Second_Y)
+
+                # // 秒针圆心;
+                fillcolor(self.SelfMPCS.HSV(Angle_Second * 180 / pi, 0.5, 0.8))
+                self.SelfMP.solidcircle(halfResolution, halfResolution, halfResolution0_021)
+
+                # // 圆心;
+                fillcolor("#313640")
+                self.SelfMP.solidcircle(halfResolution, halfResolution, halfResolution0_01)
+
+                self.SelfMP.FlushBatchDraw()
+                # self.SelfMP.saveimage("01")
+
+                # 刷新视图;
+                for i in range(64):
+                    undo()
+
+            '''
+            pensize(4)
+            pencolor("#313640")
+            self.SelfMP.line(X0, Y0, Second_X, Second_Y)
+            pensize(8)
+            self.SelfMP.line(halfResolution, halfResolution, Minute_hand_X, Minute_hand_Y)
+            pensize(12)
+            self.SelfMP.line(halfResolution, halfResolution, Hour_hand_X, Hour_hand_Y)
+            pensize(12)
+            self.SelfMP.line(halfResolution + 5, halfResolution + 5, Minute_hand_X + 5, Minute_hand_Y + 5)
+            pensize(14)
+            self.SelfMP.line(halfResolution + 5, halfResolution + 5, Hour_hand_X + 5, Hour_hand_Y + 5)
+            '''
+
+    pass
+
 
 '''------------------------------------------------------------------------------------------
 Python根本不适合用来写GUI和渲染引擎,特别是在图形渲染这一块,C++一秒就能完成的计算,Python需要一分钟以上.
 而且两者底层代码的复杂程度是差不多的,也就是说在底层这块使用Python并不能很好就降低开发难度. 何况C/C++的
 速度对Python来说是降维打击. C/C++能够直接操作内存等计算机资源,当开发者的水平足够高时就能够写出运行速度
 非常块并且占用资源非常低的程序.
-
+    
 目前情况是, 本项目: MountPenglai 的运行速度非常的"优雅"(优雅到窒息), 当然主要原因是 turtle 库太慢.
 我在C++那边一直在开发的一个项目: Organ-Field GUI 它在做与 MountPenglai 相同图形渲染时目测几毫秒内
-就能完成, 而 MountPenglai 则需要破天荒的花上几十秒!
+就能完成, 而 MountPenglai 则需要破天荒的花上几秒.
 ------------------------------------------------------------------------------------------'''
