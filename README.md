@@ -2,6 +2,8 @@
 
 ![Homework-Open-Source.jpg](https://repository-images.githubusercontent.com/531410247/c87eee78-e33b-48c5-938d-33340f8415ce)
 
+### [实时提示] 可以先去看 "Coursework1_Easy (简单易懂的大作业案例1)" 这里的案例比较简单,而且很好理解.
+
 ### [1] 今后有关"Python程序设计"的所有作业都会在此开源.
 
 ### [2] 任何人都能够随意的浏览和下载这里的代码.
