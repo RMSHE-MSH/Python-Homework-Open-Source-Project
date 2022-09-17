@@ -1,0 +1,8 @@
+![Coursework1_Easy01(画椭圆的案例).jpg](https://raw.githubusercontent.com/RMSHE-MSH/Python-Homework-Open-Source-Project/master/Coursework1_Easy%20(%E7%AE%80%E5%8D%95%E6%98%93%E6%87%82%E7%9A%84%E5%A4%A7%E4%BD%9C%E4%B8%9A%E6%A1%88%E4%BE%8B1)/Renderings(%E6%95%88%E6%9E%9C%E5%9B%BE)/Coursework1_Easy01(%E7%94%BB%E6%A4%AD%E5%9C%86%E7%9A%84%E6%A1%88%E4%BE%8B).jpg)
+![Coursework1_Easy02(画彩虹).jpg](https://raw.githubusercontent.com/RMSHE-MSH/Python-Homework-Open-Source-Project/master/Coursework1_Easy%20(%E7%AE%80%E5%8D%95%E6%98%93%E6%87%82%E7%9A%84%E5%A4%A7%E4%BD%9C%E4%B8%9A%E6%A1%88%E4%BE%8B1)/Renderings(%E6%95%88%E6%9E%9C%E5%9B%BE)/Coursework1_Easy02(%E7%94%BB%E5%BD%A9%E8%99%B9).jpg)
+![Coursework1_Easy03(画心形图案)](https://raw.githubusercontent.com/RMSHE-MSH/Python-Homework-Open-Source-Project/master/Coursework1_Easy%20(%E7%AE%80%E5%8D%95%E6%98%93%E6%87%82%E7%9A%84%E5%A4%A7%E4%BD%9C%E4%B8%9A%E6%A1%88%E4%BE%8B1)/Renderings(%E6%95%88%E6%9E%9C%E5%9B%BE)/Coursework1_Easy03(%E7%94%BB%E5%BF%83%E5%BD%A2%E5%9B%BE%E6%A1%88).jpg)
+![Coursework1_Easy04(画一束花).jpg](https://raw.githubusercontent.com/RMSHE-MSH/Python-Homework-Open-Source-Project/master/Coursework1_Easy%20(%E7%AE%80%E5%8D%95%E6%98%93%E6%87%82%E7%9A%84%E5%A4%A7%E4%BD%9C%E4%B8%9A%E6%A1%88%E4%BE%8B1)/Renderings(%E6%95%88%E6%9E%9C%E5%9B%BE)/Coursework1_Easy04(%E7%94%BB%E4%B8%80%E6%9D%9F%E8%8A%B1).jpg)
+![Coursework1_Easy05(绘制漂亮的渐变螺旋).jpg](https://raw.githubusercontent.com/RMSHE-MSH/Python-Homework-Open-Source-Project/master/Coursework1_Easy%20(%E7%AE%80%E5%8D%95%E6%98%93%E6%87%82%E7%9A%84%E5%A4%A7%E4%BD%9C%E4%B8%9A%E6%A1%88%E4%BE%8B1)/Renderings(%E6%95%88%E6%9E%9C%E5%9B%BE)/Coursework1_Easy05(%E7%BB%98%E5%88%B6%E6%BC%82%E4%BA%AE%E7%9A%84%E6%B8%90%E5%8F%98%E8%9E%BA%E6%97%8B).jpg)
+
+
+
