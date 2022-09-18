@@ -43,7 +43,7 @@ while i < 250:
         H = 0
     H += 1
 
-MP.polyline(position)  # 绘制多条连续都线;
+MP.polyline(position)  # 绘制多条连续的线;
 
 MP.EndBatchDraw()  # 结束批量绘图;
 done()  # 绘图结束;
