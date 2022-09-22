@@ -1,4 +1,4 @@
-# ElementaryAdditionAuxiliaryProgram
+# ElementaryAdditionAuxiliaryProgram (小学一年级加法辅助程序)
 # Powered by RMSHE / 2022.09.22
 # GitHub Open Source: https://github.com/RMSHE-MSH/Python-Homework-Open-Source-Project
 from random import *
