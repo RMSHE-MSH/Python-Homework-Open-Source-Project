@@ -6,6 +6,8 @@
 
 ### [2022.09.29] 作业已更新 / 文件: [New] FastPowerProgressbar(加速度进度条).py
 
+![FastPowerProgressbar_Renderings.gif](https://raw.githubusercontent.com/RMSHE-MSH/Python-Homework-Open-Source-Project/master/IMG/FastPowerProgressbar_Renderings.gif)
+
 ***
 
 #### [1] 今后有关"Python程序设计"的所有作业都会在此开源.
