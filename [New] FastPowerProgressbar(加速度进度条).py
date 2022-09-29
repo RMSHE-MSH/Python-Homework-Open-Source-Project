@@ -1,4 +1,4 @@
-# FastPowerProgressbar(加速度进度条)
+# FastPowerProgressbar(加速度进度条)(好好想想为什么现在的进度条会骗人)
 # Powered by RMSHE / 2022.09.29
 # GitHub Open Source: https://github.com/RMSHE-MSH/Python-Homework-Open-Source-Project
 # 警告: 本代码 ".py" Python文件必须以 UTF-8 编码保存,否则进度条字符可能会输出乱码!
