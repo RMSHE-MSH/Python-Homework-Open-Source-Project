@@ -8,7 +8,7 @@
 
 EASYX_API void c_cleardevice();
 
-EASYX_API HWND c_initgraph(int width, int height, int flag = EW_SHOWCONSOLE, COLORREF bkcolor = RGB(40, 44, 52));
+EASYX_API HWND c_initgraph(int width, int height);
 
 EASYX_API void c_closegraph();
 

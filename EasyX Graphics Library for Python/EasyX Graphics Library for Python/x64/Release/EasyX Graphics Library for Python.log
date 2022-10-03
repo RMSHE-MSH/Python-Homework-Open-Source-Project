@@ -1,4 +1,5 @@
-﻿  pch.cpp
+﻿E:\Application\Microsoft Visual Studio 2022\MSBuild\Microsoft\VC\v170\Microsoft.CppClean.targets(77,5): warning : 对路径“f:\subject\python\python-homework-open-source-project\easyx graphics library for python\x64\release\easyx graphics library for python.dll”的访问被拒绝。
+  pch.cpp
   dllmain.cpp
   EasyXGraphicsFunction.cpp
     正在创建库 F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\x64\Release\EasyX Graphics Library for Python.lib 和对象 F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\x64\Release\EasyX Graphics Library for Python.exp

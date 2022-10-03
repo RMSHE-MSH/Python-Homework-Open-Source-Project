@@ -3,10 +3,10 @@
 
 void c_cleardevice() { cleardevice(); }
 
-HWND c_initgraph(int width, int height, int flag, COLORREF bkcolor) {
-	HWND hWnd = initgraph(width, height, flag);
+HWND c_initgraph(int width, int height) {
+	HWND hWnd = initgraph(width, height, EW_SHOWCONSOLE);
 	setorigin(0, 0);
-	setbkcolor(bkcolor);
+	setbkcolor(RGB(40, 44, 52));
 	cleardevice();
 	setaspectratio(1, 1);
 	::setbkmode(TRANSPARENT);
