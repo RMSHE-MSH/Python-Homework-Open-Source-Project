@@ -4,19 +4,25 @@
 
 #define EASYX_API extern "C" __declspec(dllexport)
 
+//VectorStack(图形矢量堆栈)相关函数;
+
+EASYX_API void c_pop_vecstack();
+
+EASYX_API void c_back_vecstack();
+
 //绘图设备相关函数;
 
 EASYX_API void c_cleardevice();
 
-EASYX_API HWND c_initgraph(int width, int height, COLORREF color);
+EASYX_API HWND c_initgraph(int width, int height, COLORREF color = 3419176);//RGB(40, 44, 52);
 
 EASYX_API void c_closegraph();
 
-EASYX_API void c_setaspectratio(float x, float y);
+EASYX_API void c_setaspectratio(float x = 1, float y = 1);
 
 EASYX_API void c_graphdefaults();
 
-EASYX_API void c_setorigin(int x, int y);
+EASYX_API void c_setorigin(int x = 0, int y = 0);
 
 //颜色模型;
 
@@ -44,15 +50,15 @@ EASYX_API COLORREF c_getfillcolor();
 
 EASYX_API COLORREF c_getlinecolor();
 
-EASYX_API void c_setbkcolor(COLORREF color);
+EASYX_API void c_setbkcolor(COLORREF color = 3419176);//RGB(40, 44, 52);
 
-EASYX_API void c_setbkmode(int mode);
+EASYX_API void c_setbkmode(int mode = TRANSPARENT);
 
-EASYX_API void c_setfillcolor(COLORREF color);
+EASYX_API void c_setfillcolor(COLORREF color = 15724527); //RGB(239, 239, 239);
 
-EASYX_API void c_setfillstyle(int style, long hatch, IMAGE *ppattern = NULL);
+EASYX_API void c_setfillstyle(int style = BS_SOLID, long hatch = NULL, IMAGE *ppattern = NULL);
 
-EASYX_API void c_setlinecolor(COLORREF color);
+EASYX_API void c_setlinecolor(COLORREF color = 15724527);//RGB(239, 239, 239);
 
 EASYX_API void c_setlinestyle(int style = PS_SOLID | PS_ENDCAP_ROUND, int thickness = 1, const DWORD *puserstyle = NULL, DWORD userstylecount = 0);
 

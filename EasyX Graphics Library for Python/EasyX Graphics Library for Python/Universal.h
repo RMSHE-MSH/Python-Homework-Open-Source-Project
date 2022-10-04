@@ -42,4 +42,6 @@ using namespace std;
 
 #define PI 3.1415926535897932384626433
 
+#define CIRCLE 1
+
 #endif

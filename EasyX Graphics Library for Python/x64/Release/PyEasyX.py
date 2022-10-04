@@ -1,3 +1,4 @@
+from time import sleep
 from ctypes import *
 from math import *
 import os
@@ -34,6 +35,13 @@ PS_ENDCAP_FLAT = 0x00000200
 
 
 class PyEasyX:
+    # VectorStack(图形矢量堆栈)相关函数;
+    def pop():
+        pDll.c_pop_vecstack()
+
+    def back():
+        pDll.c_back_vecstack()
+
     # 绘图设备相关函数;
     def cleardevice():
         pDll.c_cleardevice()
@@ -88,7 +96,7 @@ class PyEasyX:
     def getlinecolor():
         return pDll.c_getlinecolor()
 
-    def setbkcolor(color=3419176):
+    def setbkcolor(color=3419176):  # RGB(40, 44, 52);
         pDll.c_setbkcolor(c_ulong(color))
 
     def setbkmode(mode=TRANSPARENT):
@@ -100,19 +108,33 @@ class PyEasyX:
     def setfillstyle(style=BS_SOLID, hatch=None):
         pDll.c_setfillstyle(c_int(style), c_long(hatch))
 
-    def setlinecolor(color=15724527):
+    def setlinecolor(color=15724527):  # RGB(239,239,239);
         pDll.c_setlinecolor(c_ulong(color))
 
-    def setlinestyle(style=PS_SOLID | PS_ENDCAP_ROUND, thickness=1):
+    def setlinestyle(thickness=1, style=PS_SOLID | PS_ENDCAP_ROUND):
         pDll.c_setlinestyle(c_int(style), c_int(thickness))
 
     # 图形绘制相关函数;
     def circle(x, y, radius):
         pDll.c_circle(c_int(x), c_int(y), c_int(radius))
 
+    def fillcircle(x, y, radius):
+        pDll.c_fillcircle(c_int(x), c_int(y), c_int(radius))
+
 
 PyEasyX.initgraph()
-PyEasyX.setlinestyle(PS_DASH | PS_ENDCAP_FLAT, 4)
+PyEasyX.setlinestyle(4)
 PyEasyX.circle(300, 300, 200)
+
+sleep(1)
+PyEasyX.setlinestyle(1)
+PyEasyX.setlinecolor(PyEasyX.RGB(97, 175, 239))
+PyEasyX.circle(300, 300, 100)
+
+sleep(1)
+PyEasyX.back()
+sleep(1)
+PyEasyX.back()
+
 
 os.system("pause")
