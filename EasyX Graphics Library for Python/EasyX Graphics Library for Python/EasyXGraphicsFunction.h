@@ -8,7 +8,7 @@
 
 EASYX_API void c_cleardevice();
 
-EASYX_API HWND c_initgraph(int width, int height);
+EASYX_API HWND c_initgraph(int width, int height, COLORREF color);
 
 EASYX_API void c_closegraph();
 
@@ -44,15 +44,15 @@ EASYX_API COLORREF c_getfillcolor();
 
 EASYX_API COLORREF c_getlinecolor();
 
-EASYX_API void c_setbkcolor(COLORREF color = RGB(40, 44, 52));
+EASYX_API void c_setbkcolor(COLORREF color);
 
-EASYX_API void c_setbkmode(int mode = TRANSPARENT);
+EASYX_API void c_setbkmode(int mode);
 
-EASYX_API void c_setfillcolor(COLORREF color = RGB(239, 239, 239));
+EASYX_API void c_setfillcolor(COLORREF color);
 
-EASYX_API void c_setfillstyle(int style = BS_SOLID, long hatch = NULL, IMAGE *ppattern = NULL);
+EASYX_API void c_setfillstyle(int style, long hatch, IMAGE *ppattern = NULL);
 
-EASYX_API void c_setlinecolor(COLORREF color = RGB(239, 239, 239));
+EASYX_API void c_setlinecolor(COLORREF color);
 
 EASYX_API void c_setlinestyle(int style = PS_SOLID | PS_ENDCAP_ROUND, int thickness = 1, const DWORD *puserstyle = NULL, DWORD userstylecount = 0);
 

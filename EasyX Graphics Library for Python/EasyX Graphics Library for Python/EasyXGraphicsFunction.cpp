@@ -3,10 +3,10 @@
 
 void c_cleardevice() { cleardevice(); }
 
-HWND c_initgraph(int width, int height) {
+HWND c_initgraph(int width, int height, COLORREF color) {
 	HWND hWnd = initgraph(width, height, EW_SHOWCONSOLE);
 	setorigin(0, 0);
-	setbkcolor(RGB(40, 44, 52));
+	setbkcolor(color);
 	cleardevice();
 	setaspectratio(1, 1);
 	::setbkmode(TRANSPARENT);
@@ -49,7 +49,7 @@ void c_setbkmode(int mode) { setbkmode(mode); }
 
 void c_setfillcolor(COLORREF color) { setfillcolor(color); }
 
-void c_setfillstyle(int style, long hatch, IMAGE *ppattern) { setfillstyle(style, hatch, ppattern); }
+void c_setfillstyle(int style, long hatch, IMAGE *ppattern) { setfillstyle(style, hatch, ppattern = NULL); }
 
 void c_setlinecolor(COLORREF color) { setlinecolor(color); }
 
