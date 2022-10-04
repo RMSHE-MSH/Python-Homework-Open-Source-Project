@@ -1,16 +1,16 @@
-//Powered by RMSHE / 2022.10.02;
+ï»¿//Powered by RMSHE / 2022.10.02;
 #pragma once
 #include "Universal.h"
 
 #define EASYX_API extern "C" __declspec(dllexport)
 
-//VectorStack(Í¼ĞÎÊ¸Á¿¶ÑÕ»)Ïà¹Øº¯Êı;
+//VectorStack(å›¾å½¢çŸ¢é‡å †æ ˆ)ç›¸å…³å‡½æ•°;
 
 EASYX_API void c_pop_vecstack();
 
 EASYX_API void c_back_vecstack();
 
-//»æÍ¼Éè±¸Ïà¹Øº¯Êı;
+//ç»˜å›¾è®¾å¤‡ç›¸å…³å‡½æ•°;
 
 EASYX_API void c_cleardevice();
 
@@ -24,7 +24,7 @@ EASYX_API void c_graphdefaults();
 
 EASYX_API void c_setorigin(int x = 0, int y = 0);
 
-//ÑÕÉ«Ä£ĞÍ;
+//é¢œè‰²æ¨¡å‹;
 
 EASYX_API BYTE c_GetBValue(COLORREF rgb);
 
@@ -40,7 +40,7 @@ EASYX_API COLORREF c_RGB(BYTE byRed, BYTE byGreen, BYTE byBlue);
 
 EASYX_API COLORREF c_RGBtoGRAY(COLORREF rgb);
 
-//Í¼ĞÎÑÕÉ«¼°ÑùÊ½ÉèÖÃÏà¹Øº¯Êı;
+//å›¾å½¢é¢œè‰²åŠæ ·å¼è®¾ç½®ç›¸å…³å‡½æ•°;
 
 EASYX_API COLORREF c_getbkcolor();
 
@@ -62,7 +62,7 @@ EASYX_API void c_setlinecolor(COLORREF color = 15724527);//RGB(239, 239, 239);
 
 EASYX_API void c_setlinestyle(int style = PS_SOLID | PS_ENDCAP_ROUND, int thickness = 1, const DWORD *puserstyle = NULL, DWORD userstylecount = 0);
 
-//Í¼ĞÎ»æÖÆÏà¹Øº¯Êı;
+//å›¾å½¢ç»˜åˆ¶ç›¸å…³å‡½æ•°;
 EASYX_API void c_arc(int left, int top, int right, int bottom, double stangle, double endangle);
 
 EASYX_API void c_circle(int x, int y, int radius);

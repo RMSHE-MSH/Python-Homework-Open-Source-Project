@@ -1,7 +1,7 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "EasyXGraphicsFunction.h"
 
-//VectorStackÍ¼ĞÎÊ¸Á¿¶ÑÕ»;
+//VectorStackå›¾å½¢çŸ¢é‡å †æ ˆ;
 typedef struct POINT_COLORREF { COLORREF lineColor; COLORREF fillColor; }POINT_COLORREF;
 typedef struct LINE_STYLE { int Style; int thickness; }LINE_STYLE;
 typedef struct FILL_STYLE { int Style; long hatch; }FILL_STYLE;
@@ -22,8 +22,8 @@ private:
 	vector<POINT_COLORREF> ColorStack;
 	vector<POINT_STYLE> StyleStack;
 public:
-	bool VecStackPow = true;	//¼¤»îÊ¸Á¿¶ÑÕ»(×Ü¿ª¹Ø);
-	bool ReadOnly = false;		//Ê¸Á¿¶ÑÕ»Ö»¶Á¿ª¹Ø;
+	bool VecStackPow = true;	//æ¿€æ´»çŸ¢é‡å †æ ˆ(æ€»å¼€å…³);
+	bool ReadOnly = false;		//çŸ¢é‡å †æ ˆåªè¯»å¼€å…³;
 
 	long long int size() { return Size; }
 
