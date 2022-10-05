@@ -16,11 +16,7 @@ class VectorStack {
 private:
 	long long int Size = -1;
 
-	vector<int> TypeStack;
-	vector<POINT> PointStack;
-	vector<int> ShapeStack;
-	vector<POINT_COLORREF> ColorStack;
-	vector<POINT_STYLE> StyleStack;
+	vector<VECSTACK> VEC_STACK;
 public:
 	bool VecStackPow = true;	//激活矢量堆栈(总开关);
 	bool ReadOnly = false;		//矢量堆栈只读开关;
@@ -29,41 +25,42 @@ public:
 
 	void push(int Type, POINT Point, int Shape) {
 		if (VecStackPow == true && ReadOnly == false) {
-			TypeStack.push_back(Type);
-			PointStack.push_back(Point);
-			ShapeStack.push_back(Shape);
-			ColorStack.push_back({ getlinecolor(),getfillcolor() });
-			StyleStack.push_back({ PresentLineStyle,PresentFillStyle });
+			VEC_STACK.push_back({ Type ,Point ,Shape ,{ getlinecolor(),getfillcolor() } ,{ PresentLineStyle,PresentFillStyle } });
 
 			++Size;
 		}
 	}
 
 	VECSTACK pop() {
-		if (VecStackPow == true && ReadOnly == false) {
-			VECSTACK pop_data = { TypeStack[Size],PointStack[Size],ShapeStack[Size],ColorStack[Size],StyleStack[Size] };
+		if (VecStackPow == true && ReadOnly == false && Size != -1) {
+			VECSTACK pop_data = VEC_STACK[Size];
 
-			TypeStack.pop_back();
-			PointStack.pop_back();
-			ShapeStack.pop_back();
-			ColorStack.pop_back();
-			StyleStack.pop_back();
+			VEC_STACK.pop_back();
 
-			--Size;
-
-			return pop_data;
+			--Size; return pop_data;
 		}
+		return {};
 	}
 
 	vector<VECSTACK> back() {
-		if (VecStackPow == true && ReadOnly == false) {
-			pop();
+		if (VecStackPow == true && ReadOnly == false) { pop(); return VEC_STACK; }
+		/*vector<VECSTACK> BackStack;
+			for (int i = 0; i <= Size; ++i)BackStack.push_back(VEC_STACK[i]);
 
-			vector<VECSTACK> BackStack;
-			for (int i = 0; i <= Size; ++i)BackStack.push_back({ TypeStack[i], PointStack[i], ShapeStack[i], ColorStack[i], StyleStack[i] });
+			vector<VECSTACK> BackStack = { VEC_STACK.begin(),VEC_STACK.end() };
+			*/
+		return {};
+	}
 
-			return BackStack;
+	vector<VECSTACK> clone(unsigned long long int begin = 0, unsigned long long int end = NULL) {
+		if (VecStackPow == true) {
+			if (end == NULL || end > Size)end = Size;
+
+			vector<VECSTACK> clone_block; copy(VEC_STACK.begin() + begin, VEC_STACK.begin() + end, clone_block.begin());
+
+			return clone_block;
 		}
+		return {};
 	}
 }VecStack;
 
@@ -75,8 +72,13 @@ void c_pop_vecstack() {
 	setfillstyle(pop_data.StyleStack.FillStyle.Style, pop_data.StyleStack.FillStyle.hatch);
 
 	cleardevice();
-	if (pop_data.TypeStack == CIRCLE) {
-		circle(pop_data.PointStack.x, pop_data.PointStack.y, pop_data.ShapeStack);
+	switch (pop_data.TypeStack) {
+		case CIRCLE:
+			circle(pop_data.PointStack.x, pop_data.PointStack.y, pop_data.ShapeStack);
+		case PIXEL:
+			putpixel(pop_data.PointStack.x, pop_data.PointStack.y, pop_data.ColorStack.fillColor);
+		default:
+			break;
 	}
 }
 
@@ -89,8 +91,13 @@ void c_back_vecstack() {
 		setlinestyle(back_data[i].StyleStack.lineStyle.Style, back_data[i].StyleStack.lineStyle.thickness);
 		setfillstyle(back_data[i].StyleStack.FillStyle.Style, back_data[i].StyleStack.FillStyle.hatch);
 
-		if (back_data[i].TypeStack == CIRCLE) {
-			circle(back_data[i].PointStack.x, back_data[i].PointStack.y, back_data[i].ShapeStack);
+		switch (back_data[i].TypeStack) {
+			case CIRCLE:
+				circle(back_data[i].PointStack.x, back_data[i].PointStack.y, back_data[i].ShapeStack);
+			case PIXEL:
+				putpixel(back_data[i].PointStack.x, back_data[i].PointStack.y, back_data[i].ColorStack.fillColor);
+			default:
+				break;
 		}
 	}
 }
@@ -174,7 +181,7 @@ void c_clearellipse(int left, int top, int right, int bottom) { clearellipse(lef
 
 void c_clearpie(int left, int top, int right, int bottom, double stangle, double endangle) { clearpie(left, top, right, bottom, stangle, endangle); }
 
-void c_clearpolygon(const POINT *points, int num) { clearpolygon(points, num); }
+void c_clearpolygon(int points[], int num) { clearpolygon((POINT *)points, int(0.5 * num)); }
 
 void c_clearrectangle(int left, int top, int right, int bottom) { clearrectangle(left, top, right, bottom); }
 
@@ -188,4 +195,12 @@ void c_fillellipse(int left, int top, int right, int bottom) { fillellipse(left,
 
 void c_fillpie(int left, int top, int right, int bottom, double stangle, double endangle) { fillpie(left, top, right, bottom, stangle, endangle); }
 
-void c_putpixel(int x, int y, COLORREF color) { putpixel(x, y, color); }
+void c_putpixel(int x, int y) { putpixel(x, y, getfillcolor()); VecStack.push(PIXEL, { x,y }, NULL); }
+
+//其它函数;
+
+void c_BeginBatchDraw() { BeginBatchDraw(); }
+
+void c_EndBatchDraw() { EndBatchDraw(); }
+
+void c_FlushBatchDraw() { FlushBatchDraw(); }

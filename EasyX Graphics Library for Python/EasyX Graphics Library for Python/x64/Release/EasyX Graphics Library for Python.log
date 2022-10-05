@@ -1,11 +1,10 @@
 ﻿  pch.cpp
   dllmain.cpp
   EasyXGraphicsFunction.cpp
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(62,27): warning C4018: “>”: 有符号/无符号不匹配
     正在创建库 F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\x64\Release\EasyX Graphics Library for Python.lib 和对象 F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\x64\Release\EasyX Graphics Library for Python.exp
   正在生成代码
   Previous IPDB not found, fall back to full compilation.
-F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(56): warning C4715: “VectorStack::pop”: 不是所有的控件路径都返回值
-F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(67): warning C4715: “VectorStack::back”: 不是所有的控件路径都返回值
-  All 307 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 136 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   已完成代码的生成
   EasyX Graphics Library for Python.vcxproj -> F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\x64\Release\EasyX Graphics Library for Python.dll

@@ -71,9 +71,9 @@ EASYX_API void c_clearcircle(int x, int y, int radius);
 
 EASYX_API void c_clearellipse(int left, int top, int right, int bottom);
 
-EASYX_API void c_clearpie(int left, int top, int right, int bottom, double stangle, double endangle);
+EASYX_API void c_clearpie(int left, int top, int right, int bottom, double stangle = 0, double endangle = 2 * PI);
 
-EASYX_API void c_clearpolygon(const POINT *points, int num);
+EASYX_API void c_clearpolygon(int points[], int num);
 
 EASYX_API void c_clearrectangle(int left, int top, int right, int bottom);
 
@@ -87,4 +87,10 @@ EASYX_API void c_fillellipse(int left, int top, int right, int bottom);
 
 EASYX_API void c_fillpie(int left, int top, int right, int bottom, double stangle, double endangle);
 
-EASYX_API void c_putpixel(int x, int y, COLORREF color);
+EASYX_API void c_putpixel(int x, int y);
+
+//其它函数;
+
+EASYX_API void c_BeginBatchDraw();
+EASYX_API void c_EndBatchDraw();
+EASYX_API void c_FlushBatchDraw();
