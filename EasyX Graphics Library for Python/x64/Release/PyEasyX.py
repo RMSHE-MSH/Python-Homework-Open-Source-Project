@@ -1,4 +1,6 @@
+from cmath import sin
 from math import pi
+from random import *
 from time import sleep
 from ctypes import *
 import os
@@ -149,7 +151,7 @@ def setlinestyle(thickness=1, style=PS_SOLID | PS_ENDCAP_ROUND):
 # 图形绘制相关函数;
 
 
-def arc(left, top, right, bottom, stangle, endangle):
+def arc(left, top, right, bottom, stangle=0, endangle=2*pi):
     pDll.c_arc(c_int(left), c_int(top), c_int(right), c_int(bottom), c_double(stangle), c_double(endangle))
 
 
@@ -216,20 +218,34 @@ def FlushBatchDraw():
 
 
 initgraph()
-setlinestyle(1)
+setlinestyle(16)
+setlinecolor(RGB(92, 45, 145))
+sleep(5)
 
 BeginBatchDraw()
-for i in range(0,600,8):
-    for j in range(0, 600, 8):
+
+circle(300, 300, 280)
+
+k = 0
+for i in range(0, 600, 4):
+    for j in range(0, 600, 4):
         putpixel(j, i)
+    k += 0.004
+    setfillcolor(HSVtoRGB(360*abs(sin(k)), 0.6, 0.8))
 
+clearpolygon([100, 100, 100, 300, 400, 400, 200, 50])
+circle(300, 300, 100)
+clearpolygon([600, 600, 300, 300, 100, 500])
+circle(300, 300, 200)
 FlushBatchDraw()
-sleep(1)
+sleep(3)
 
-for i in range(0, 600, 8):
-    for j in range(0, 600, 8):
-        back()
-        FlushBatchDraw()
+for i in range(22506):
+    back()
+    FlushBatchDraw()
+
+    if i < 4:
+        sleep(3)
 
 EndBatchDraw()
 

@@ -42,7 +42,12 @@ using namespace std;
 
 #define PI 3.1415926535897932384626433
 
+#define ARC 0
 #define CIRCLE 1
+#define CL_CIRCLE 3
+#define CL_ELLIPSE 4
+#define CL_PIE 5
+#define CL_POLYGON 6
 #define PIXEL 13
 
 #endif

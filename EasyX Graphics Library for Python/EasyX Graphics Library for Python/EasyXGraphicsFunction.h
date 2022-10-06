@@ -92,5 +92,7 @@ EASYX_API void c_putpixel(int x, int y);
 //其它函数;
 
 EASYX_API void c_BeginBatchDraw();
+
 EASYX_API void c_EndBatchDraw();
+
 EASYX_API void c_FlushBatchDraw();

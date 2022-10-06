@@ -10,7 +10,7 @@ FILL_STYLE PresentFillStyle = { NULL,NULL };
 
 typedef struct POINT_STYLE { LINE_STYLE lineStyle; FILL_STYLE FillStyle; }POINT_STYLE;
 
-typedef struct VECSTACK { int TypeStack; POINT PointStack; int ShapeStack; POINT_COLORREF ColorStack; POINT_STYLE StyleStack; }VECSTACK;
+typedef struct VECSTACK { int TypeStack; vector<POINT> PointStack; vector<double> ShapeStack; POINT_COLORREF ColorStack; POINT_STYLE StyleStack; }VECSTACK;
 
 class VectorStack {
 private:
@@ -23,7 +23,7 @@ public:
 
 	long long int size() { return Size; }
 
-	void push(int Type, POINT Point, int Shape) {
+	void push(int Type, vector<POINT> Point, vector<double> Shape) {
 		if (VecStackPow == true && ReadOnly == false) {
 			VEC_STACK.push_back({ Type ,Point ,Shape ,{ getlinecolor(),getfillcolor() } ,{ PresentLineStyle,PresentFillStyle } });
 
@@ -73,10 +73,18 @@ void c_pop_vecstack() {
 
 	cleardevice();
 	switch (pop_data.TypeStack) {
+		case ARC:
+			arc(pop_data.PointStack[0].x, pop_data.PointStack[0].y, pop_data.PointStack[1].x, pop_data.PointStack[1].y, pop_data.ShapeStack[0], pop_data.ShapeStack[1]); break;
 		case CIRCLE:
-			circle(pop_data.PointStack.x, pop_data.PointStack.y, pop_data.ShapeStack);
+			circle(pop_data.PointStack[0].x, pop_data.PointStack[0].y, pop_data.ShapeStack[0]); break;
+		case CL_CIRCLE:
+			clearcircle(pop_data.PointStack[0].x, pop_data.PointStack[0].y, pop_data.ShapeStack[0]); break;
+		case CL_ELLIPSE:
+			clearellipse(pop_data.PointStack[0].x, pop_data.PointStack[0].y, pop_data.PointStack[1].x, pop_data.PointStack[1].y); break;
+		case CL_PIE:
+			clearpie(pop_data.PointStack[0].x, pop_data.PointStack[0].y, pop_data.PointStack[1].x, pop_data.PointStack[1].y, pop_data.ShapeStack[0], pop_data.ShapeStack[1]); break;
 		case PIXEL:
-			putpixel(pop_data.PointStack.x, pop_data.PointStack.y, pop_data.ColorStack.fillColor);
+			putpixel(pop_data.PointStack[0].x, pop_data.PointStack[0].y, pop_data.ColorStack.fillColor); break;
 		default:
 			break;
 	}
@@ -92,10 +100,24 @@ void c_back_vecstack() {
 		setfillstyle(back_data[i].StyleStack.FillStyle.Style, back_data[i].StyleStack.FillStyle.hatch);
 
 		switch (back_data[i].TypeStack) {
+			case ARC:
+				arc(back_data[i].PointStack[0].x, back_data[i].PointStack[0].y, back_data[i].PointStack[1].x, back_data[i].PointStack[1].y, back_data[i].ShapeStack[0], back_data[i].ShapeStack[1]); break;
 			case CIRCLE:
-				circle(back_data[i].PointStack.x, back_data[i].PointStack.y, back_data[i].ShapeStack);
+				circle(back_data[i].PointStack[0].x, back_data[i].PointStack[0].y, back_data[i].ShapeStack[0]); break;
+			case CL_CIRCLE:
+				clearcircle(back_data[i].PointStack[0].x, back_data[i].PointStack[0].y, back_data[i].ShapeStack[0]); break;
+			case CL_ELLIPSE:
+				clearellipse(back_data[i].PointStack[0].x, back_data[i].PointStack[0].y, back_data[i].PointStack[1].x, back_data[i].PointStack[1].y); break;
+			case CL_PIE:
+				clearpie(back_data[i].PointStack[0].x, back_data[i].PointStack[0].y, back_data[i].PointStack[1].x, back_data[i].PointStack[1].y, back_data[i].ShapeStack[0], back_data[i].ShapeStack[1]); break;
+			case CL_POLYGON: {
+				POINT *pts = new POINT[back_data[i].PointStack.size()];
+
+				for (int j = 0; j < back_data[i].PointStack.size(); ++j) pts[j] = back_data[i].PointStack[j];
+
+				clearpolygon(pts, int(back_data[i].ShapeStack[0]));  delete[]pts; break; }
 			case PIXEL:
-				putpixel(back_data[i].PointStack.x, back_data[i].PointStack.y, back_data[i].ColorStack.fillColor);
+				putpixel(back_data[i].PointStack[0].x, back_data[i].PointStack[0].y, back_data[i].ColorStack.fillColor); break;
 			default:
 				break;
 		}
@@ -171,17 +193,34 @@ void c_setlinestyle(int style, int thickness, const DWORD *puserstyle, DWORD use
 	PresentLineStyle = { style ,thickness };
 }
 
-void c_arc(int left, int top, int right, int bottom, double stangle, double endangle) { arc(left, top, right, bottom, stangle, endangle); }
+//图形绘制相关函数;
 
-void c_circle(int x, int y, int radius) { circle(x, y, radius); VecStack.push(CIRCLE, { x,y }, radius); }
+void c_arc(int left, int top, int right, int bottom, double stangle, double endangle) {
+	arc(left, top, right, bottom, stangle, endangle);
+	VecStack.push(ARC, { {left,top},{ right, bottom} }, { stangle ,endangle });
+}
 
-void c_clearcircle(int x, int y, int radius) { clearcircle(x, y, radius); }
+void c_circle(int x, int y, int radius) { circle(x, y, radius); VecStack.push(CIRCLE, { { x,y } }, { double(radius) }); }
 
-void c_clearellipse(int left, int top, int right, int bottom) { clearellipse(left, top, right, bottom); }
+void c_clearcircle(int x, int y, int radius) { clearcircle(x, y, radius); VecStack.push(CL_CIRCLE, { { x,y } }, { double(radius) }); }
 
-void c_clearpie(int left, int top, int right, int bottom, double stangle, double endangle) { clearpie(left, top, right, bottom, stangle, endangle); }
+void c_clearellipse(int left, int top, int right, int bottom) {
+	clearellipse(left, top, right, bottom);
+	VecStack.push(CL_ELLIPSE, { {left,top},{ right, bottom} }, { NULL,NULL });
+}
 
-void c_clearpolygon(int points[], int num) { clearpolygon((POINT *)points, int(0.5 * num)); }
+void c_clearpie(int left, int top, int right, int bottom, double stangle, double endangle) {
+	clearpie(left, top, right, bottom, stangle, endangle);
+	VecStack.push(CL_PIE, { {left,top},{ right, bottom} }, { stangle ,endangle });
+}
+
+void c_clearpolygon(int points[], int num) {
+	int _num = int(0.5 * num); clearpolygon((POINT *)points, _num);
+
+	vector<POINT> _points; for (int i = 0; i < num; i += 2) _points.push_back({ points[i],points[i + 1] });
+
+	VecStack.push(CL_POLYGON, _points, { (double)_num });
+}
 
 void c_clearrectangle(int left, int top, int right, int bottom) { clearrectangle(left, top, right, bottom); }
 
@@ -195,7 +234,7 @@ void c_fillellipse(int left, int top, int right, int bottom) { fillellipse(left,
 
 void c_fillpie(int left, int top, int right, int bottom, double stangle, double endangle) { fillpie(left, top, right, bottom, stangle, endangle); }
 
-void c_putpixel(int x, int y) { putpixel(x, y, getfillcolor()); VecStack.push(PIXEL, { x,y }, NULL); }
+void c_putpixel(int x, int y) { putpixel(x, y, getfillcolor()); VecStack.push(PIXEL, { { x,y } }, { NULL }); }
 
 //其它函数;
 
