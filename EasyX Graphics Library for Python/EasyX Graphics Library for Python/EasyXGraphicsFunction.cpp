@@ -1,5 +1,6 @@
 ﻿#include "pch.h"
 #include "EasyXGraphicsFunction.h"
+#include "CUDA.cuh"
 
 //VectorStack图形矢量堆栈;
 typedef struct POINT_COLORREF { COLORREF lineColor; COLORREF fillColor; }POINT_COLORREF;
@@ -94,30 +95,30 @@ void c_back_vecstack() {
 	vector<VECSTACK> back_data = VecStack.back();
 
 	cleardevice();
-	for (int i = 0; i <= VecStack.size(); ++i) {
-		setlinecolor(back_data[i].ColorStack.lineColor); setfillcolor(back_data[i].ColorStack.fillColor);
-		setlinestyle(back_data[i].StyleStack.lineStyle.Style, back_data[i].StyleStack.lineStyle.thickness);
-		setfillstyle(back_data[i].StyleStack.FillStyle.Style, back_data[i].StyleStack.FillStyle.hatch);
+	for (auto iterator = back_data.begin(); iterator < back_data.end(); ++iterator) {
+		setlinecolor((*iterator).ColorStack.lineColor); setfillcolor((*iterator).ColorStack.fillColor);
+		setlinestyle((*iterator).StyleStack.lineStyle.Style, (*iterator).StyleStack.lineStyle.thickness);
+		setfillstyle((*iterator).StyleStack.FillStyle.Style, (*iterator).StyleStack.FillStyle.hatch);
 
-		switch (back_data[i].TypeStack) {
+		switch ((*iterator).TypeStack) {
 			case ARC:
-				arc(back_data[i].PointStack[0].x, back_data[i].PointStack[0].y, back_data[i].PointStack[1].x, back_data[i].PointStack[1].y, back_data[i].ShapeStack[0], back_data[i].ShapeStack[1]); break;
+				arc((*iterator).PointStack[0].x, (*iterator).PointStack[0].y, (*iterator).PointStack[1].x, (*iterator).PointStack[1].y, (*iterator).ShapeStack[0], (*iterator).ShapeStack[1]); break;
 			case CIRCLE:
-				circle(back_data[i].PointStack[0].x, back_data[i].PointStack[0].y, back_data[i].ShapeStack[0]); break;
+				circle((*iterator).PointStack[0].x, (*iterator).PointStack[0].y, (*iterator).ShapeStack[0]); break;
 			case CL_CIRCLE:
-				clearcircle(back_data[i].PointStack[0].x, back_data[i].PointStack[0].y, back_data[i].ShapeStack[0]); break;
+				clearcircle((*iterator).PointStack[0].x, (*iterator).PointStack[0].y, (*iterator).ShapeStack[0]); break;
 			case CL_ELLIPSE:
-				clearellipse(back_data[i].PointStack[0].x, back_data[i].PointStack[0].y, back_data[i].PointStack[1].x, back_data[i].PointStack[1].y); break;
+				clearellipse((*iterator).PointStack[0].x, (*iterator).PointStack[0].y, (*iterator).PointStack[1].x, (*iterator).PointStack[1].y); break;
 			case CL_PIE:
-				clearpie(back_data[i].PointStack[0].x, back_data[i].PointStack[0].y, back_data[i].PointStack[1].x, back_data[i].PointStack[1].y, back_data[i].ShapeStack[0], back_data[i].ShapeStack[1]); break;
+				clearpie((*iterator).PointStack[0].x, (*iterator).PointStack[0].y, (*iterator).PointStack[1].x, (*iterator).PointStack[1].y, (*iterator).ShapeStack[0], (*iterator).ShapeStack[1]); break;
 			case CL_POLYGON: {
-				POINT *pts = new POINT[back_data[i].PointStack.size()];
+				POINT *pts = new POINT[(*iterator).PointStack.size()];
 
-				for (int j = 0; j < back_data[i].PointStack.size(); ++j) pts[j] = back_data[i].PointStack[j];
+				for (int j = 0; j < (*iterator).PointStack.size(); ++j) pts[j] = (*iterator).PointStack[j];
 
-				clearpolygon(pts, int(back_data[i].ShapeStack[0]));  delete[]pts; break; }
+				clearpolygon(pts, int((*iterator).ShapeStack[0]));  delete[]pts; break; }
 			case PIXEL:
-				putpixel(back_data[i].PointStack[0].x, back_data[i].PointStack[0].y, back_data[i].ColorStack.fillColor); break;
+				putpixel((*iterator).PointStack[0].x, (*iterator).PointStack[0].y, (*iterator).ColorStack.fillColor); break;
 			default:
 				break;
 		}

@@ -27,6 +27,7 @@
     <ClInclude Include="Universal.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="CUDA.cuh" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -41,5 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
+  </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="CUDA.cu" />
   </ItemGroup>
 </Project>

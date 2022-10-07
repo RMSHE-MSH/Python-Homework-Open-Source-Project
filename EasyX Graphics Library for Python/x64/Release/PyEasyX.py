@@ -220,32 +220,19 @@ def FlushBatchDraw():
 initgraph()
 setlinestyle(16)
 setlinecolor(RGB(92, 45, 145))
-sleep(5)
-
 BeginBatchDraw()
-
-circle(300, 300, 280)
-
 k = 0
-for i in range(0, 600, 4):
-    for j in range(0, 600, 4):
+for i in range(0, 600,16):
+    for j in range(0, 600,16):
         putpixel(j, i)
-    k += 0.004
-    setfillcolor(HSVtoRGB(360*abs(sin(k)), 0.6, 0.8))
+        setfillcolor(HSVtoRGB(179*abs(1+sin(k)), 0.7, 0.8))
+    k += 0.001
 
-clearpolygon([100, 100, 100, 300, 400, 400, 200, 50])
-circle(300, 300, 100)
-clearpolygon([600, 600, 300, 300, 100, 500])
-circle(300, 300, 200)
 FlushBatchDraw()
-sleep(3)
 
-for i in range(22506):
+for i in range(0, 360000):
     back()
     FlushBatchDraw()
-
-    if i < 4:
-        sleep(3)
 
 EndBatchDraw()
 
