@@ -5,23 +5,23 @@
   pch.cpp
   dllmain.cpp
   EasyXGraphicsFunction.cpp
-F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(58,27): warning C4018: “>”: 有符号/无符号不匹配
-F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(80,84): warning C4244: “参数”: 从“_Ty”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(59,27): warning C4018: “>”: 有符号/无符号不匹配
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(84,84): warning C4244: “参数”: 从“_Ty”转换到“int”，可能丢失数据
           with
           [
               _Ty=double
           ]
-F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(82,89): warning C4244: “参数”: 从“_Ty”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(86,89): warning C4244: “参数”: 从“_Ty”转换到“int”，可能丢失数据
           with
           [
               _Ty=double
           ]
-F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(109,94): warning C4244: “参数”: 从“_Ty”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(113,94): warning C4244: “参数”: 从“_Ty”转换到“int”，可能丢失数据
           with
           [
               _Ty=double
           ]
-F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(111,99): warning C4244: “参数”: 从“_Ty”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(115,99): warning C4244: “参数”: 从“_Ty”转换到“int”，可能丢失数据
           with
           [
               _Ty=double

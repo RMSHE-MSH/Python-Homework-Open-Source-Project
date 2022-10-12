@@ -222,15 +222,19 @@ setlinestyle(16)
 setlinecolor(RGB(92, 45, 145))
 BeginBatchDraw()
 k = 0
-for i in range(0, 600,16):
-    for j in range(0, 600,16):
+for i in range(0, 600):
+    for j in range(0, 600):
         putpixel(j, i)
         setfillcolor(HSVtoRGB(179*abs(1+sin(k)), 0.7, 0.8))
     k += 0.001
 
+clearrectangle(100,100,400,400)
+clearrectangle(400, 400, 500, 500)
+circle(300,300,200)
 FlushBatchDraw()
 
 for i in range(0, 360000):
+    sleep(1)
     back()
     FlushBatchDraw()
 

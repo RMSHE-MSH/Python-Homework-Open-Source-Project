@@ -2,7 +2,7 @@
 #include "EasyXGraphicsFunction.h"
 #include "CUDA.cuh"
 
-//VectorStack图形矢量堆栈;
+//VectorStack Struct;
 typedef struct POINT_COLORREF { COLORREF lineColor; COLORREF fillColor; }POINT_COLORREF;
 typedef struct LINE_STYLE { int Style; int thickness; }LINE_STYLE;
 typedef struct FILL_STYLE { int Style; long hatch; }FILL_STYLE;
@@ -13,6 +13,7 @@ typedef struct POINT_STYLE { LINE_STYLE lineStyle; FILL_STYLE FillStyle; }POINT_
 
 typedef struct VECSTACK { int TypeStack; vector<POINT> PointStack; vector<double> ShapeStack; POINT_COLORREF ColorStack; POINT_STYLE StyleStack; }VECSTACK;
 
+//VectorStack Class;
 class VectorStack {
 private:
 	long long int Size = -1;
@@ -63,8 +64,11 @@ public:
 		}
 		return {};
 	}
+
+public:
 }VecStack;
 
+//VectorStack API;
 void c_pop_vecstack() {
 	VECSTACK pop_data = VecStack.pop();
 
@@ -84,6 +88,8 @@ void c_pop_vecstack() {
 			clearellipse(pop_data.PointStack[0].x, pop_data.PointStack[0].y, pop_data.PointStack[1].x, pop_data.PointStack[1].y); break;
 		case CL_PIE:
 			clearpie(pop_data.PointStack[0].x, pop_data.PointStack[0].y, pop_data.PointStack[1].x, pop_data.PointStack[1].y, pop_data.ShapeStack[0], pop_data.ShapeStack[1]); break;
+		case CL_RECT:
+			clearrectangle(pop_data.PointStack[0].x, pop_data.PointStack[0].y, pop_data.PointStack[1].x, pop_data.PointStack[1].y); break;
 		case PIXEL:
 			putpixel(pop_data.PointStack[0].x, pop_data.PointStack[0].y, pop_data.ColorStack.fillColor); break;
 		default:
@@ -117,6 +123,8 @@ void c_back_vecstack() {
 				for (int j = 0; j < (*iterator).PointStack.size(); ++j) pts[j] = (*iterator).PointStack[j];
 
 				clearpolygon(pts, int((*iterator).ShapeStack[0]));  delete[]pts; break; }
+			case CL_RECT:
+				clearrectangle((*iterator).PointStack[0].x, (*iterator).PointStack[0].y, (*iterator).PointStack[1].x, (*iterator).PointStack[1].y); break;
 			case PIXEL:
 				putpixel((*iterator).PointStack[0].x, (*iterator).PointStack[0].y, (*iterator).ColorStack.fillColor); break;
 			default:
@@ -207,7 +215,7 @@ void c_clearcircle(int x, int y, int radius) { clearcircle(x, y, radius); VecSta
 
 void c_clearellipse(int left, int top, int right, int bottom) {
 	clearellipse(left, top, right, bottom);
-	VecStack.push(CL_ELLIPSE, { {left,top},{ right, bottom} }, { NULL,NULL });
+	VecStack.push(CL_ELLIPSE, { {left,top},{ right, bottom} }, { NULL });
 }
 
 void c_clearpie(int left, int top, int right, int bottom, double stangle, double endangle) {
@@ -223,7 +231,7 @@ void c_clearpolygon(int points[], int num) {
 	VecStack.push(CL_POLYGON, _points, { (double)_num });
 }
 
-void c_clearrectangle(int left, int top, int right, int bottom) { clearrectangle(left, top, right, bottom); }
+void c_clearrectangle(int left, int top, int right, int bottom) { clearrectangle(left, top, right, bottom); VecStack.push(CL_RECT, { {left,top},{right,bottom} }, { NULL }); }
 
 void c_clearroundrect(int left, int top, int right, int bottom, int ellipsewidth, int ellipseheight) { clearroundrect(left, top, right, bottom, ellipsewidth, ellipseheight); }
 

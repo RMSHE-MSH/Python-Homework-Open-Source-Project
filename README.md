@@ -4,7 +4,7 @@
 
 ## 最新消息
 
-### [2022.09.29] 作业已更新 / 文件: [New] FastPowerProgressbar(加速度进度条).py
+### [2022.10.12] 为什么老师不发布作业了呢?这是一个问题......
 
 ![FastPowerProgressbar_Renderings.gif](https://raw.githubusercontent.com/RMSHE-MSH/Python-Homework-Open-Source-Project/master/IMG/FastPowerProgressbar_Renderings.gif)
 
