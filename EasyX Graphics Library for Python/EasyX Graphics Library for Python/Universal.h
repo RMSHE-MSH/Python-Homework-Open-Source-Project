@@ -49,6 +49,12 @@ using namespace std;
 #define CL_PIE 5
 #define CL_POLYGON 6
 #define CL_RECT 7
+#define CL_ROUNDRECT 8
+#define ELLIPSE 9
+#define FILLCIRCLE 10
+#define FILLELLIPSE 11
+#define FILLPIE 12
+
 #define PIXEL 13
 
 #endif

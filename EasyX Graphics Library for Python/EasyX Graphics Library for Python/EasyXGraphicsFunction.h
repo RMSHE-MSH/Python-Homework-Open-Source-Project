@@ -10,6 +10,12 @@ EASYX_API void c_pop_vecstack();
 
 EASYX_API void c_back_vecstack();
 
+EASYX_API void c_refresh_vecstack();
+
+EASYX_API void c_translation_vecstack(int Vecindex[2], int target[2]);
+
+EASYX_API void c_resize_vecstack(int Vecindex[2], float factor, int Base[2]);
+
 //绘图设备相关函数;
 
 EASYX_API void c_cleardevice();

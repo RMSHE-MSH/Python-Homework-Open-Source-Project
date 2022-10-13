@@ -1,4 +1,4 @@
-from cmath import sin
+from math import *
 from math import pi
 from random import *
 from time import sleep
@@ -47,6 +47,18 @@ def back():
     pDll.c_back_vecstack()
 
 
+def refresh():
+    pDll.c_refresh_vecstack()
+
+
+def translation(Vecindex=(0, 0), target=(0, 0)):
+    pDll.c_translation_vecstack((c_int*2)(*Vecindex), (c_int*2)(*target))
+
+
+def resize(Vecindex=(0, 0), factor=1.0, Base=()):
+    pDll.c_resize_vecstack((c_int*2)(*Vecindex), c_float(factor), (c_int*2)(*Base))
+
+
 # 绘图设备相关函数;
 
 
@@ -54,7 +66,7 @@ def cleardevice():
     pDll.c_cleardevice()
 
 
-def initgraph(x=600, y=600, color=3419176):  # RGB(40, 44, 52);
+def initgraph(x=800, y=800, color=3419176):  # RGB(40, 44, 52);
     return pDll.c_initgraph(c_int(x), c_int(y), c_ulong(color))
 
 
@@ -218,25 +230,54 @@ def FlushBatchDraw():
 
 
 initgraph()
-setlinestyle(16)
-setlinecolor(RGB(92, 45, 145))
 BeginBatchDraw()
+
+"""
 k = 0
 for i in range(0, 600):
     for j in range(0, 600):
         putpixel(j, i)
         setfillcolor(HSVtoRGB(179*abs(1+sin(k)), 0.7, 0.8))
     k += 0.001
+"""
+setlinestyle(16)
+setlinecolor(RGB(83, 82, 237))
+circle(400, 400, 100)
 
-clearrectangle(100,100,400,400)
-clearrectangle(400, 400, 500, 500)
-circle(300,300,200)
+setlinestyle(8)
+setlinecolor(RGB(255, 107, 129))
+circle(420, 420, 100)
+
+setlinestyle(4)
+setlinecolor(RGB(123, 237, 159))
+arc(400, 400, 600, 500)
+
+#translation([0, 2], [-100, -100])
+# refresh()
 FlushBatchDraw()
+sleep(1)
 
+i = 1
+while True:
+    f=0.01
+    print(f)
+
+    resize([0, 2], f, [400, 400])
+    refresh()
+    FlushBatchDraw()
+
+    resize([0, 2], 1/f, [400, 400])
+    refresh()
+    FlushBatchDraw()
+    
+    
+
+"""
 for i in range(0, 360000):
     sleep(1)
     back()
     FlushBatchDraw()
+"""
 
 EndBatchDraw()
 
