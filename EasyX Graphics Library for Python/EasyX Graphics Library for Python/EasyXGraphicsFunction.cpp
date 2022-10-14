@@ -3,6 +3,7 @@
 #include "CUDA.cuh"
 
 //VectorStack Struct;
+typedef struct FLOAT_POINT { float x; float y; }FLOAT_POINT;
 typedef struct POINT_COLORREF { COLORREF lineColor; COLORREF fillColor; }POINT_COLORREF;
 typedef struct LINE_STYLE { int Style; int thickness; }LINE_STYLE;
 typedef struct FILL_STYLE { int Style; long hatch; }FILL_STYLE;
@@ -11,7 +12,7 @@ FILL_STYLE PresentFillStyle = { NULL,NULL };
 
 typedef struct POINT_STYLE { LINE_STYLE lineStyle; FILL_STYLE FillStyle; }POINT_STYLE;
 
-typedef struct VECSTACK { int TypeStack; vector<POINT> PointStack; vector<int> Radius; vector<double> ShapeStack; POINT_COLORREF ColorStack; POINT_STYLE StyleStack; }VECSTACK;
+typedef struct VECSTACK { int TypeStack; vector<FLOAT_POINT> PointStack; vector<float> Radius; vector<float> ShapeStack; POINT_COLORREF ColorStack; POINT_STYLE StyleStack; }VECSTACK;
 
 //VectorStack Class;
 class VectorStack {
@@ -24,11 +25,9 @@ public:
 	bool VecStackPow = true;	//激活矢量堆栈(总开关);
 	bool ReadOnly = false;		//矢量堆栈只读开关;
 
-	long long int size() { return Size; }
-
 	void free() { VEC_STACK.clear(); vector<VECSTACK>().swap(VEC_STACK); }
 
-	void push(int Type, vector<POINT> Point, vector<int> Radius, vector<double> Shape) {
+	void push(int Type, vector<FLOAT_POINT> Point, vector<float> Radius, vector<float> Shape) {
 		if (VecStackPow == true && ReadOnly == false) {
 			VEC_STACK.push_back({ Type, Point, Radius, Shape ,{ getlinecolor(),getfillcolor() } ,{ PresentLineStyle,PresentFillStyle } });
 
@@ -57,17 +56,6 @@ public:
 		return {};
 	}
 
-	vector<VECSTACK> clone(unsigned long long int begin = 0, unsigned long long int end = NULL) {
-		if (VecStackPow == true) {
-			if (end == NULL || end > Size)end = Size;
-
-			vector<VECSTACK> clone_block; copy(VEC_STACK.begin() + begin, VEC_STACK.begin() + end, clone_block.begin());
-
-			return clone_block;
-		}
-		return {};
-	}
-
 public:
 	void refresh(VECSTACK iterator) {
 		setlinecolor(iterator.ColorStack.lineColor); setfillcolor(iterator.ColorStack.fillColor);
@@ -88,7 +76,7 @@ public:
 			case CL_POLYGON: {
 				POINT *pts = new POINT[iterator.PointStack.size()];
 
-				for (int j = 0; j < iterator.PointStack.size(); ++j) pts[j] = iterator.PointStack[j];
+				for (int j = 0; j < iterator.PointStack.size(); ++j) pts[j] = { (int)iterator.PointStack[j].x ,(int)iterator.PointStack[j].y };
 
 				clearpolygon(pts, int(iterator.ShapeStack[0]));  delete[]pts; break; }
 			case CL_RECT:
@@ -114,7 +102,7 @@ public:
 	void translation(POINT Vecindex = { 0,0 }, POINT target = { 0,0 }) {
 		//CPU;
 		for (int i = Vecindex.x; i <= Vecindex.y; ++i) {
-			vector<POINT> TEMP{};
+			vector<FLOAT_POINT> TEMP{};
 
 			for (auto iterator = VEC_STACK[i].PointStack.begin(); iterator < VEC_STACK[i].PointStack.end(); ++iterator)TEMP.push_back({ (*iterator).x + target.x ,(*iterator).y + target.y });
 			//for (int j = 0; j < VEC_STACK[i].PointStack.size(); ++j) TEMP.push_back({ VEC_STACK[i].PointStack[j].x + target.x, VEC_STACK[i].PointStack[j].y + target.y });
@@ -123,18 +111,15 @@ public:
 		}
 	}
 
-	void resize(POINT Vecindex = { 0,0 }, float factor = 1.0, POINT Base = { NULL,NULL }) {
-		vector<POINT> TEMP{}; vector<int> TEMP2;
+	void resize(POINT Vecindex = { 0,0 }, float factor = 1.0, POINT Base = { 0,0 }) {
 		//CPU;
 		for (int i = Vecindex.x; i <= Vecindex.y; ++i) {
-			POINT _Base{}; if (Base.x == NULL || Base.y == NULL)_Base = { VEC_STACK[i].PointStack[0].x, VEC_STACK[i].PointStack[0].y }; else _Base = Base;
-
-			vector<POINT> TEMP{}; vector<int> TEMP2;
+			vector<FLOAT_POINT> TEMP{}; vector<float> TEMP2;
 
 			for (auto iterator = VEC_STACK[i].PointStack.begin(); iterator < VEC_STACK[i].PointStack.end(); ++iterator) {
-				TEMP.push_back({ int((*iterator).x * factor + _Base.x * (1 - factor)) ,int((*iterator).y * factor + _Base.x * (1 - factor)) });
+				TEMP.push_back({ (*iterator).x * factor + Base.x * (1 - factor) ,(*iterator).y * factor + Base.x * (1 - factor) });
 			}
-			for (auto iterator = VEC_STACK[i].Radius.begin(); iterator < VEC_STACK[i].Radius.end(); ++iterator)TEMP2.push_back(int((*iterator) * factor));
+			for (auto iterator = VEC_STACK[i].Radius.begin(); iterator < VEC_STACK[i].Radius.end(); ++iterator)TEMP2.push_back(float((*iterator) * factor));
 
 			VEC_STACK.at(i) = { VEC_STACK[i].TypeStack,TEMP,TEMP2,VEC_STACK[i].ShapeStack,VEC_STACK[i].ColorStack,VEC_STACK[i].StyleStack };
 		}
@@ -142,6 +127,8 @@ public:
 }VecStack;
 
 //VectorStack(图形矢量堆栈)相关函数;
+
+long long int c_size_vecstack() { return VecStack.VEC_STACK.size(); }
 
 void c_pop_vecstack() {
 	VECSTACK pop_data = VecStack.pop();
@@ -236,52 +223,52 @@ void c_setlinestyle(int style, int thickness, const DWORD *puserstyle, DWORD use
 
 //图形绘制相关函数;
 
-void c_arc(int left, int top, int right, int bottom, double stangle, double endangle) {
+void c_arc(float left, float top, float right, float bottom, float stangle, float endangle) {
 	arc(left, top, right, bottom, stangle, endangle);
 	VecStack.push(ARC, { {left,top},{right, bottom} }, { NULL }, { stangle ,endangle });
 }
 
-void c_circle(int x, int y, int radius) { circle(x, y, radius); VecStack.push(CIRCLE, { { x,y } }, { radius }, { NULL }); }
+void c_circle(float x, float y, float radius) { circle(x, y, radius); VecStack.push(CIRCLE, { { x,y } }, { radius }, { NULL }); }
 
-void c_clearcircle(int x, int y, int radius) { clearcircle(x, y, radius); VecStack.push(CL_CIRCLE, { { x,y } }, { radius }, { NULL }); }
+void c_clearcircle(float x, float y, float radius) { clearcircle(x, y, radius); VecStack.push(CL_CIRCLE, { { x,y } }, { radius }, { NULL }); }
 
-void c_clearellipse(int left, int top, int right, int bottom) {
+void c_clearellipse(float left, float top, float right, float bottom) {
 	clearellipse(left, top, right, bottom);
 	VecStack.push(CL_ELLIPSE, { {left,top},{ right, bottom} }, { NULL }, { NULL });
 }
 
-void c_clearpie(int left, int top, int right, int bottom, double stangle, double endangle) {
+void c_clearpie(float left, float top, float right, float bottom, float stangle, float endangle) {
 	clearpie(left, top, right, bottom, stangle, endangle);
 	VecStack.push(CL_PIE, { {left,top},{ right, bottom} }, { NULL }, { stangle ,endangle });
 }
 
-void c_clearpolygon(int points[], int num) {
+void c_clearpolygon(float points[], int num) {
 	int _num = int(0.5 * num); clearpolygon((POINT *)points, _num);
 
-	vector<POINT> _points; for (int i = 0; i < num; i += 2) _points.push_back({ points[i],points[i + 1] });
+	vector<FLOAT_POINT> _points; for (int i = 0; i < num; i += 2) _points.push_back({ points[i],points[i + 1] });
 
-	VecStack.push(CL_POLYGON, _points, { NULL }, { double(_num) });
+	VecStack.push(CL_POLYGON, _points, { NULL }, { float(_num) });
 }
 
-void c_clearrectangle(int left, int top, int right, int bottom) { clearrectangle(left, top, right, bottom); VecStack.push(CL_RECT, { {left,top},{right,bottom} }, { NULL }, { NULL }); }
+void c_clearrectangle(float left, float top, float right, float bottom) { clearrectangle(left, top, right, bottom); VecStack.push(CL_RECT, { {left,top},{right,bottom} }, { NULL }, { NULL }); }
 
-void c_clearroundrect(int left, int top, int right, int bottom, int ellipsewidth, int ellipseheight) {
+void c_clearroundrect(float left, float top, float right, float bottom, float ellipsewidth, float ellipseheight) {
 	clearroundrect(left, top, right, bottom, ellipsewidth, ellipseheight);
-	VecStack.push(CL_ROUNDRECT, { {left,top},{right,bottom} }, { NULL }, { double(ellipsewidth), double(ellipseheight) });
+	VecStack.push(CL_ROUNDRECT, { {left,top},{right,bottom} }, { NULL }, { float(ellipsewidth), float(ellipseheight) });
 }
 
-void c_ellipse(int left, int top, int right, int bottom) { ellipse(left, top, right, bottom); VecStack.push(ELLIPSE, { {left,top},{right,bottom} }, { NULL }, { NULL }); }
+void c_ellipse(float left, float top, float right, float bottom) { ellipse(left, top, right, bottom); VecStack.push(ELLIPSE, { {left,top},{right,bottom} }, { NULL }, { NULL }); }
 
-void c_fillcircle(int x, int y, int radius) { fillcircle(x, y, radius); VecStack.push(FILLCIRCLE, { {x,y} }, { radius }, { NULL }); }
+void c_fillcircle(float x, float y, float radius) { fillcircle(x, y, radius); VecStack.push(FILLCIRCLE, { {x,y} }, { radius }, { NULL }); }
 
-void c_fillellipse(int left, int top, int right, int bottom) { fillellipse(left, top, right, bottom); VecStack.push(FILLELLIPSE, { {left,top},{right,bottom} }, { NULL }, { NULL }); }
+void c_fillellipse(float left, float top, float right, float bottom) { fillellipse(left, top, right, bottom); VecStack.push(FILLELLIPSE, { {left,top},{right,bottom} }, { NULL }, { NULL }); }
 
-void c_fillpie(int left, int top, int right, int bottom, double stangle, double endangle) {
+void c_fillpie(float left, float top, float right, float bottom, float stangle, float endangle) {
 	fillpie(left, top, right, bottom, stangle, endangle);
-	VecStack.push(FILLPIE, { {left,top},{right,bottom} }, { NULL }, { double(stangle), double(endangle) });
+	VecStack.push(FILLPIE, { {left,top},{right,bottom} }, { NULL }, { stangle, endangle });
 }
 
-void c_putpixel(int x, int y) { putpixel(x, y, getfillcolor()); VecStack.push(PIXEL, { { x,y } }, { NULL }, { NULL }); }
+void c_putpixel(float x, float y) { putpixel(x, y, getfillcolor()); VecStack.push(PIXEL, { { x,y } }, { NULL }, { NULL }); }
 
 //其它函数;
 

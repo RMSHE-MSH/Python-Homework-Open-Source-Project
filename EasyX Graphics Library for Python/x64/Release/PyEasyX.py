@@ -38,6 +38,9 @@ PS_ENDCAP_FLAT = 0x00000200
 
 # VectorStack(图形矢量堆栈)相关函数;
 
+def size():
+    return pDll.c_size_vecstack()
+
 
 def pop():
     pDll.c_pop_vecstack()
@@ -164,55 +167,55 @@ def setlinestyle(thickness=1, style=PS_SOLID | PS_ENDCAP_ROUND):
 
 
 def arc(left, top, right, bottom, stangle=0, endangle=2*pi):
-    pDll.c_arc(c_int(left), c_int(top), c_int(right), c_int(bottom), c_double(stangle), c_double(endangle))
+    pDll.c_arc(c_float(left), c_float(top), c_float(right), c_float(bottom), c_float(stangle), c_float(endangle))
 
 
 def circle(x, y, radius):
-    pDll.c_circle(c_int(x), c_int(y), c_int(radius))
+    pDll.c_circle(c_float(x), c_float(y), c_float(radius))
 
 
 def clearcircle(x, y, radius):
-    pDll.c_clearcircle(c_int(x), c_int(y), c_int(radius))
+    pDll.c_clearcircle(c_float(x), c_float(y), c_float(radius))
 
 
 def clearellipse(left, top, right, bottom):
-    pDll.c_clearellipse(c_int(left), c_int(top), c_int(right), c_int(bottom))
+    pDll.c_clearellipse(c_float(left), c_float(top), c_float(right), c_float(bottom))
 
 
 def clearpie(left, top, right, bottom, stangle=0, endangle=2*pi):
-    pDll.c_clearpie(c_int(left), c_int(top), c_int(right), c_int(bottom), c_double(stangle), c_double(endangle))
+    pDll.c_clearpie(c_float(left), c_float(top), c_float(right), c_float(bottom), c_float(stangle), c_float(endangle))
 
 
 def clearpolygon(points=()):
-    pDll.c_clearpolygon((c_int*len(points))(*points), len(points))
+    pDll.c_clearpolygon((c_float*len(points))(*points), len(points))
 
 
 def clearrectangle(left, top, right, bottom):
-    pDll.c_clearrectangle(c_int(left), c_int(top), c_int(right), c_int(bottom))
+    pDll.c_clearrectangle(c_float(left), c_float(top), c_float(right), c_float(bottom))
 
 
 def clearroundrect(left, top, right, bottom, ellipsewidth, ellipseheight):
-    pDll.c_clearroundrect(c_int(left), c_int(top), c_int(right), c_int(bottom), c_int(ellipsewidth), c_int(ellipseheight))
+    pDll.c_clearroundrect(c_float(left), c_float(top), c_float(right), c_float(bottom), c_float(ellipsewidth), c_float(ellipseheight))
 
 
 def ellipse(left, top, right, bottom):
-    pDll.c_ellipse(c_int(left), c_int(top), c_int(right), c_int(bottom))
+    pDll.c_ellipse(c_float(left), c_float(top), c_float(right), c_float(bottom))
 
 
 def fillcircle(x, y, radius):
-    pDll.c_fillcircle(c_int(x), c_int(y), c_int(radius))
+    pDll.c_fillcircle(c_float(x), c_float(y), c_float(radius))
 
 
 def fillellipse(left, top, right, bottom):
-    pDll.c_fillellipse(c_int(left), c_int(top), c_int(right), c_int(bottom))
+    pDll.c_fillellipse(c_float(left), c_float(top), c_float(right), c_float(bottom))
 
 
 def fillpie(left, top, right, bottom,  stangle=0, endangle=2*pi):
-    pDll.c_fillpie(c_int(left), c_int(top), c_int(right), c_int(bottom), c_double(stangle), c_double(endangle))
+    pDll.c_fillpie(c_float(left), c_float(top), c_float(right), c_float(bottom), c_float(stangle), c_float(endangle))
 
 
 def putpixel(x, y):
-    pDll.c_putpixel(c_int(x), c_int(y))
+    pDll.c_putpixel(c_float(x), c_float(y))
 
 # 其它函数;
 
@@ -259,18 +262,14 @@ sleep(1)
 
 i = 1
 while True:
-    f=0.01
-    print(f)
+    f = 1+sin(i)
+    i += 0.001
 
-    resize([0, 2], f, [400, 400])
+    resize([0, size()-1], f, [0, 0])
     refresh()
     FlushBatchDraw()
 
-    resize([0, 2], 1/f, [400, 400])
-    refresh()
-    FlushBatchDraw()
-    
-    
+    resize([0, size()-1], 1/f, [0, 0])
 
 """
 for i in range(0, 360000):

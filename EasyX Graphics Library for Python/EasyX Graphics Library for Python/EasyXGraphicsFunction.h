@@ -6,6 +6,8 @@
 
 //VectorStack(图形矢量堆栈)相关函数;
 
+EASYX_API long long int c_size_vecstack();
+
 EASYX_API void c_pop_vecstack();
 
 EASYX_API void c_back_vecstack();
@@ -69,31 +71,31 @@ EASYX_API void c_setlinecolor(COLORREF color = 15724527);//RGB(239, 239, 239);
 EASYX_API void c_setlinestyle(int style = PS_SOLID | PS_ENDCAP_ROUND, int thickness = 1, const DWORD *puserstyle = NULL, DWORD userstylecount = 0);
 
 //图形绘制相关函数;
-EASYX_API void c_arc(int left, int top, int right, int bottom, double stangle, double endangle);
+EASYX_API void c_arc(float left, float top, float right, float bottom, float stangle, float endangle);
 
-EASYX_API void c_circle(int x, int y, int radius);
+EASYX_API void c_circle(float x, float y, float radius);
 
-EASYX_API void c_clearcircle(int x, int y, int radius);
+EASYX_API void c_clearcircle(float x, float y, float radius);
 
-EASYX_API void c_clearellipse(int left, int top, int right, int bottom);
+EASYX_API void c_clearellipse(float left, float top, float right, float bottom);
 
-EASYX_API void c_clearpie(int left, int top, int right, int bottom, double stangle = 0, double endangle = 2 * PI);
+EASYX_API void c_clearpie(float left, float top, float right, float bottom, float stangle = 0, float endangle = 2 * PI);
 
-EASYX_API void c_clearpolygon(int points[], int num);
+EASYX_API void c_clearpolygon(float pofloats[], int num);
 
-EASYX_API void c_clearrectangle(int left, int top, int right, int bottom);
+EASYX_API void c_clearrectangle(float left, float top, float right, float bottom);
 
-EASYX_API void c_clearroundrect(int left, int top, int right, int bottom, int ellipsewidth, int ellipseheight);
+EASYX_API void c_clearroundrect(float left, float top, float right, float bottom, float ellipsewidth, float ellipseheight);
 
-EASYX_API void c_ellipse(int left, int top, int right, int bottom);
+EASYX_API void c_ellipse(float left, float top, float right, float bottom);
 
-EASYX_API void c_fillcircle(int x, int y, int radius);
+EASYX_API void c_fillcircle(float x, float y, float radius);
 
-EASYX_API void c_fillellipse(int left, int top, int right, int bottom);
+EASYX_API void c_fillellipse(float left, float top, float right, float bottom);
 
-EASYX_API void c_fillpie(int left, int top, int right, int bottom, double stangle, double endangle);
+EASYX_API void c_fillpie(float left, float top, float right, float bottom, float stangle, float endangle);
 
-EASYX_API void c_putpixel(int x, int y);
+EASYX_API void c_putpixel(float x, float y);
 
 //其它函数;
 
