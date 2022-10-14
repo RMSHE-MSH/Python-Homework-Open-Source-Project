@@ -5,4 +5,6 @@
 
 #define CUDA_API extern "C" __declspec(dllexport)
 
-CUDA_API void TEST();
+//CUDA_API float **GPU_rotate(vector<float> PointStack_X, vector<float> PointStack_Y, float angle, POINT Base);
+
+CUDA_API float **GPU_rotate(float **PointStack, int num, float angle, POINT Base);

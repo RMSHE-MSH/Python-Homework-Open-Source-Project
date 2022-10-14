@@ -5,7 +5,7 @@
 //VectorStack Struct;
 typedef struct FLOAT_POINT { float x; float y; }FLOAT_POINT;
 typedef struct POINT_COLORREF { COLORREF lineColor; COLORREF fillColor; }POINT_COLORREF;
-typedef struct LINE_STYLE { int Style; int thickness; }LINE_STYLE;
+typedef struct LINE_STYLE { int Style; float thickness; }LINE_STYLE;
 typedef struct FILL_STYLE { int Style; long hatch; }FILL_STYLE;
 LINE_STYLE PresentLineStyle = { NULL,NULL };
 FILL_STYLE PresentFillStyle = { NULL,NULL };
@@ -114,16 +114,68 @@ public:
 	void resize(POINT Vecindex = { 0,0 }, float factor = 1.0, POINT Base = { 0,0 }) {
 		//CPU;
 		for (int i = Vecindex.x; i <= Vecindex.y; ++i) {
-			vector<FLOAT_POINT> TEMP{}; vector<float> TEMP2;
+			vector<FLOAT_POINT> TEMP{}; vector<float> TEMP2; POINT_STYLE TEMP3;
 
+			//坐标点缩放;
 			for (auto iterator = VEC_STACK[i].PointStack.begin(); iterator < VEC_STACK[i].PointStack.end(); ++iterator) {
 				TEMP.push_back({ (*iterator).x * factor + Base.x * (1 - factor) ,(*iterator).y * factor + Base.x * (1 - factor) });
 			}
+
+			//非坐标点表示的形状缩放;
 			for (auto iterator = VEC_STACK[i].Radius.begin(); iterator < VEC_STACK[i].Radius.end(); ++iterator)TEMP2.push_back(float((*iterator) * factor));
 
-			VEC_STACK.at(i) = { VEC_STACK[i].TypeStack,TEMP,TEMP2,VEC_STACK[i].ShapeStack,VEC_STACK[i].ColorStack,VEC_STACK[i].StyleStack };
+			//线宽缩放;
+			TEMP3 = { {VEC_STACK[i].StyleStack.lineStyle.Style,VEC_STACK[i].StyleStack.lineStyle.thickness * factor},VEC_STACK[i].StyleStack.FillStyle };
+
+			VEC_STACK.at(i) = { VEC_STACK[i].TypeStack,TEMP,TEMP2,VEC_STACK[i].ShapeStack,VEC_STACK[i].ColorStack,TEMP3 };
 		}
 	}
+
+	void rotate(POINT Vecindex = { 0,0 }, float angle = 0.0, POINT Base = { 0,0 }) {
+		//GPU;
+		int VEC_STACK_CPU_Size = Vecindex.y - Vecindex.x;
+
+		float **PointStack_CPU = new float *[VEC_STACK_CPU_Size] {NULL};
+
+		int j = Vecindex.x; int num = 0;
+		for (int i = 0; i <= VEC_STACK_CPU_Size; ++i, ++j) {
+			PointStack_CPU[i] = new float[VEC_STACK[j].PointStack.size() + VEC_STACK[j].PointStack.size()] {NULL};
+
+			int k = 0;
+			for (auto iterator = VEC_STACK[j].PointStack.begin(); iterator < VEC_STACK[j].PointStack.end(); ++iterator, k += 2, num += 2) {
+				PointStack_CPU[i][k] = (*iterator).x; PointStack_CPU[i][k + 1] = (*iterator).y;
+			}
+		}
+
+		float **PointStack_GPU = GPU_rotate(PointStack_CPU, num, angle, Base);
+
+		////free PointStack_GPU;
+
+		//for (int i = 0; i < Vecindex.y - Vecindex.x; ++i) {
+		//	vector<FLOAT_POINT> TEMP{};
+		//	TEMP.push_back({ PointStack_GPU[i][0], PointStack_GPU[i][1] });
+		//	VEC_STACK.at(i) = { VEC_STACK[i].TypeStack, TEMP, VEC_STACK[i].Radius,VEC_STACK[i].ShapeStack,VEC_STACK[i].ColorStack,VEC_STACK[i].StyleStack };
+		//}
+
+		//delete[Vecindex.y - Vecindex.x]PointStack_GPU; PointStack_GPU = NULL;
+
+		//CPU--------------------------------------------------------------------------------------------------------------------------------------------------;
+		//for (int i = Vecindex.x; i <= Vecindex.y; ++i) {
+		//	vector<FLOAT_POINT> TEMP{};
+
+		//	//坐标点旋转;
+		//	for (auto iterator = VEC_STACK[i].PointStack.begin(); iterator < VEC_STACK[i].PointStack.end(); ++iterator) {
+		//		float newX = (*iterator).x * cos(angle) - (*iterator).y * sin(angle) + Base.x * (1 - cos(angle)) + Base.y * sin(angle);
+		//		float newY = (*iterator).x * sin(angle) + (*iterator).y * cos(angle) + Base.y * (1 - cos(angle)) - Base.x * sin(angle);
+
+		//		TEMP.push_back({ newX, newY });
+		//	}
+
+		//	VEC_STACK.at(i) = { VEC_STACK[i].TypeStack,TEMP,VEC_STACK[i].Radius,VEC_STACK[i].ShapeStack,VEC_STACK[i].ColorStack,VEC_STACK[i].StyleStack };
+		//}
+	}
+
+	void Perspective() {}
 }VecStack;
 
 //VectorStack(图形矢量堆栈)相关函数;
@@ -149,6 +201,8 @@ void c_refresh_vecstack() { cleardevice(); for (auto iterator = VecStack.VEC_STA
 void c_translation_vecstack(int Vecindex[2], int target[2]) { VecStack.translation({ Vecindex[0],Vecindex[1] }, { target[0],target[1] }); }
 
 void c_resize_vecstack(int Vecindex[2], float factor, int Base[2]) { VecStack.resize({ Vecindex[0],Vecindex[1] }, factor, { Base[0],Base[1] }); }
+
+void c_rotate_vecstack(int Vecindex[2], float angle, int Base[2]) { VecStack.rotate({ Vecindex[0],Vecindex[1] }, angle, { Base[0],Base[1] }); }
 
 //绘图设备相关函数;
 
@@ -216,7 +270,7 @@ void c_setfillstyle(int style, long hatch, IMAGE *ppattern) {
 
 void c_setlinecolor(COLORREF color) { setlinecolor(color); }
 
-void c_setlinestyle(int style, int thickness, const DWORD *puserstyle, DWORD userstylecount) {
+void c_setlinestyle(int style, float thickness, const DWORD *puserstyle, DWORD userstylecount) {
 	setlinestyle(style, thickness, puserstyle, userstylecount);
 	PresentLineStyle = { style ,thickness };
 }

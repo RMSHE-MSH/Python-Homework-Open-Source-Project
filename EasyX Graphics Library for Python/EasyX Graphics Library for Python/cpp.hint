@@ -5,3 +5,4 @@
 #define EASYX_API extern "C" __declspec(dllexport)
 #define NULL
 #define NULL ((void *)0)
+#define CUDA_API extern "C" __declspec(dllexport)

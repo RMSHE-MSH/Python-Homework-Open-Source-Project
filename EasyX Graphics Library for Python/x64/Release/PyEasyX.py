@@ -58,8 +58,12 @@ def translation(Vecindex=(0, 0), target=(0, 0)):
     pDll.c_translation_vecstack((c_int*2)(*Vecindex), (c_int*2)(*target))
 
 
-def resize(Vecindex=(0, 0), factor=1.0, Base=()):
+def resize(Vecindex=(0, 0), factor=1.0, Base=(0, 0)):
     pDll.c_resize_vecstack((c_int*2)(*Vecindex), c_float(factor), (c_int*2)(*Base))
+
+
+def rotate(Vecindex=(0, 0), angle=0.0, Base=(0, 0)):
+    pDll.c_rotate_vecstack((c_int*2)(*Vecindex), c_float(angle), (c_int*2)(*Base))
 
 
 # 绘图设备相关函数;
@@ -159,8 +163,8 @@ def setlinecolor(color=15724527):  # RGB(239,239,239);
     pDll.c_setlinecolor(c_ulong(color))
 
 
-def setlinestyle(thickness=1, style=PS_SOLID | PS_ENDCAP_ROUND):
-    pDll.c_setlinestyle(c_int(style), c_int(thickness))
+def setlinestyle(thickness=1.0, style=PS_SOLID | PS_ENDCAP_ROUND):
+    pDll.c_setlinestyle(c_int(style), c_float(thickness))
 
 
 # 图形绘制相关函数;
@@ -243,33 +247,48 @@ for i in range(0, 600):
         setfillcolor(HSVtoRGB(179*abs(1+sin(k)), 0.7, 0.8))
     k += 0.001
 """
-setlinestyle(16)
-setlinecolor(RGB(83, 82, 237))
-circle(400, 400, 100)
 
-setlinestyle(8)
-setlinecolor(RGB(255, 107, 129))
-circle(420, 420, 100)
+setlinecolor(RGB(97, 175, 239))
+setlinestyle(1)
+for i in range(0, 801, 40):
+    for j in range(0, 801, 40):
+        fillcircle(j, i, 2)
 
-setlinestyle(4)
-setlinecolor(RGB(123, 237, 159))
-arc(400, 400, 600, 500)
 
 #translation([0, 2], [-100, -100])
 # refresh()
 FlushBatchDraw()
-sleep(1)
+sleep(2)
 
-i = 1
+rotate([0, size()-1], pi/180*45, [400, 400])
+#refresh()
+FlushBatchDraw()
+
+"""
+i = 0
 while True:
-    f = 1+sin(i)
     i += 0.001
+    rotate([0, size()-1], pi/180*(180*sin(i)+180), [400, 400])
+    refresh()
+    FlushBatchDraw()
+    rotate([0, size()-1], -pi/180*(180*sin(i)+180), [400, 400])
+"""
 
-    resize([0, size()-1], f, [0, 0])
+"""
+k = 0
+i = 0
+while True:
+    f = 8*sin(i)
+    if (f == 0):
+        f += 0.001
+    i += 0.008
+
+    resize([0, size()-1], f, [400, 400])
     refresh()
     FlushBatchDraw()
 
-    resize([0, size()-1], 1/f, [0, 0])
+    resize([0, size()-1], 1/f, [400, 400])
+"""
 
 """
 for i in range(0, 360000):

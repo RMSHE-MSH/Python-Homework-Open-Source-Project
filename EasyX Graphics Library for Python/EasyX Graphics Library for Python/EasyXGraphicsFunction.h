@@ -18,6 +18,8 @@ EASYX_API void c_translation_vecstack(int Vecindex[2], int target[2]);
 
 EASYX_API void c_resize_vecstack(int Vecindex[2], float factor, int Base[2]);
 
+EASYX_API void c_rotate_vecstack(int Vecindex[2], float angle, int Base[2]);
+
 //绘图设备相关函数;
 
 EASYX_API void c_cleardevice();
@@ -68,7 +70,7 @@ EASYX_API void c_setfillstyle(int style = BS_SOLID, long hatch = NULL, IMAGE *pp
 
 EASYX_API void c_setlinecolor(COLORREF color = 15724527);//RGB(239, 239, 239);
 
-EASYX_API void c_setlinestyle(int style = PS_SOLID | PS_ENDCAP_ROUND, int thickness = 1, const DWORD *puserstyle = NULL, DWORD userstylecount = 0);
+EASYX_API void c_setlinestyle(int style = PS_SOLID | PS_ENDCAP_ROUND, float thickness = 1.0, const DWORD *puserstyle = NULL, DWORD userstylecount = 0);
 
 //图形绘制相关函数;
 EASYX_API void c_arc(float left, float top, float right, float bottom, float stangle, float endangle);
