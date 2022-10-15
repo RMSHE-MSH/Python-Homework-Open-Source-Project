@@ -7,4 +7,4 @@
 
 //CUDA_API float **GPU_rotate(vector<float> PointStack_X, vector<float> PointStack_Y, float angle, POINT Base);
 
-CUDA_API float **GPU_rotate(float **PointStack, int num, float angle, POINT Base);
+CUDA_API float *GPU_rotate(float *PointStack_CPU, int PointStackSize, float angle, POINT Base);

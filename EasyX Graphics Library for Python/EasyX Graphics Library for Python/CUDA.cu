@@ -71,33 +71,64 @@ void GPU_Device_Initialize() {
 //	return PointStack_GPU;
 //}
 
-__global__ void rotate(float **PointStack_GPU, float angle, POINT Base) {
+__global__ void rotate_X(float *PointStack_X_GPU, float *PointStack_Y_GPU, float angle, POINT Base) {
 	int i = threadIdx.x;
+
+	//X;
+	PointStack_X_GPU[i] = PointStack_X_GPU[i] * cos(angle) - PointStack_Y_GPU[i] * sin(angle) + Base.x * (1 - cos(angle)) + Base.y * sin(angle);
 }
 
-float **GPU_rotate(float **PointStack, int num, float angle, POINT Base) {
+__global__ void rotate_Y(float *PointStack_X_GPU, float *PointStack_Y_GPU, float angle, POINT Base) {
+	int i = threadIdx.x;
+
+	//Y;
+	PointStack_Y_GPU[i] = PointStack_X_GPU[i] * sin(angle) + PointStack_Y_GPU[i] * cos(angle) + Base.y * (1 - cos(angle)) - Base.x * sin(angle);
+}
+
+float *GPU_rotate(float *PointStack_CPU, int PointStackSize, float angle, POINT Base) {
 	GPU_Device_Initialize();
 
 	//init data;
-	float **PointStack_GPU = nullptr;
-	float **PointStack_CPU = nullptr;
+	float *PointStack_X_GPU = nullptr;
+	float *PointStack_Y_GPU = nullptr;
 
-	//new space;
-	size_t pitch;
-	//cudaMallocPitch((void **)&PointStack_GPU, &pitch, width * sizeof(float), height);
-	//cudaMallocPitch((void **)&PointStack_GPU, num * sizeof(float));
+	float *GPU_X_Result = new float[PointStackSize] {};
+	float *GPU_Y_Result = new float[PointStackSize] {};
+
+	float *PointStack_X_CPU = new float[PointStackSize] {};
+	float *PointStack_Y_CPU = new float[PointStackSize] {};
+
+	int X = 0; for (int i = 0; i < 2 * PointStackSize; i += 2, ++X) PointStack_X_CPU[X] = PointStack_CPU[i];
+	int Y = 0; for (int i = 1; i < 2 * PointStackSize; i += 2, ++Y) PointStack_Y_CPU[Y] = PointStack_CPU[i];
+
+	//申请显存空间;
+	cudaMalloc((void **)&PointStack_X_GPU, PointStackSize * sizeof(float));
+	cudaMalloc((void **)&PointStack_Y_GPU, PointStackSize * sizeof(float));
 
 	//copy data CPU -> GPU;
-	cudaMemcpy(PointStack_GPU, PointStack, num * sizeof(float), cudaMemcpyHostToDevice);
+	cudaMemcpy(PointStack_X_GPU, PointStack_X_CPU, PointStackSize * sizeof(float), cudaMemcpyHostToDevice);
+	cudaMemcpy(PointStack_Y_GPU, PointStack_Y_CPU, PointStackSize * sizeof(float), cudaMemcpyHostToDevice);
 
-	//do;
-	rotate << <1, 1024 >> > (PointStack_GPU, angle, Base);
+	//分配算力;
+	int BlockNum = 1;
+	int ThreadNum = PointStackSize;
+
+	//开始并行计算;
+	rotate_X << <BlockNum, ThreadNum >> > (PointStack_X_GPU, PointStack_Y_GPU, angle, Base);
+	rotate_Y << <BlockNum, ThreadNum >> > (PointStack_X_GPU, PointStack_Y_GPU, angle, Base);
 
 	//copy data GPU -> CPU;
-	cudaMemcpy(PointStack_CPU, PointStack_GPU, num * sizeof(float), cudaMemcpyDeviceToHost);
+	cudaMemcpy(GPU_X_Result, PointStack_X_GPU, PointStackSize * sizeof(float), cudaMemcpyDeviceToHost);
+	cudaMemcpy(GPU_Y_Result, PointStack_Y_GPU, PointStackSize * sizeof(float), cudaMemcpyDeviceToHost);
 
-	//free;
-	cudaFree(PointStack_GPU);
+	float *GPU_Result = new float[2 * PointStackSize] {};
 
-	return nullptr;
+	int _X = 0; for (int i = 0; i < PointStackSize; ++i, _X += 2) GPU_Result[_X] = GPU_X_Result[i];
+	int _Y = 1; for (int i = 0; i < PointStackSize; ++i, _Y += 2) GPU_Result[_Y] = GPU_Y_Result[i];
+
+	//释放显存;
+	cudaFree(PointStack_X_GPU);
+	cudaFree(PointStack_Y_GPU);
+
+	return GPU_Result;
 }

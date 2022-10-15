@@ -147,19 +147,33 @@ public:
 			for (auto iterator = VEC_STACK[j].PointStack.begin(); iterator < VEC_STACK[j].PointStack.end(); ++iterator, k += 2, num += 2) {
 				PointStack_CPU[i][k] = (*iterator).x; PointStack_CPU[i][k + 1] = (*iterator).y;
 			}
-		}
+		}*/
 
-		float **PointStack_GPU = GPU_rotate(PointStack_CPU, num, angle, Base);*/
+		//int VecStackSize = Vecindex.y - Vecindex.x;
 
-		////free PointStack_GPU;
-
-		//for (int i = 0; i < Vecindex.y - Vecindex.x; ++i) {
-		//	vector<FLOAT_POINT> TEMP{};
-		//	TEMP.push_back({ PointStack_GPU[i][0], PointStack_GPU[i][1] });
-		//	VEC_STACK.at(i) = { VEC_STACK[i].TypeStack, TEMP, VEC_STACK[i].Radius,VEC_STACK[i].ShapeStack,VEC_STACK[i].ColorStack,VEC_STACK[i].StyleStack };
+		//vector<float> POINT_STACK;
+		//for (int i = Vecindex.x; i <= Vecindex.y; ++i) {
+		//	for (auto j = VEC_STACK[i].PointStack.begin(); j < VEC_STACK[i].PointStack.end(); ++j) { POINT_STACK.push_back((*j).x); POINT_STACK.push_back((*j).y); }
 		//}
 
-		//delete[Vecindex.y - Vecindex.x]PointStack_GPU; PointStack_GPU = NULL;
+		//float *PointStack_CPU = new float [POINT_STACK.size()] {};
+		//int k = 0; for (auto i = POINT_STACK.begin(); i < POINT_STACK.end(); ++i, ++k) PointStack_CPU[k] = (*i);
+
+		////cout << int(0.5 * POINT_STACK.size()) << endl;
+
+		//float *GPUResult = GPU_rotate(PointStack_CPU, int(0.5 * POINT_STACK.size()), angle, Base);
+
+		//setlinecolor(RGB(97, 175, 239));
+		//setfillcolor(RGB(97, 175, 239));
+		//for (int i = 0; i < POINT_STACK.size(); ++i) {
+		//	//cout << GPUResult[i] << endl;
+		//	fillcircle(GPUResult[i], GPUResult[i + 1], 2);
+		//}
+
+		////释放内存;
+		//POINT_STACK.clear(); vector<float>().swap(POINT_STACK);
+		//delete[]PointStack_CPU;
+		//delete[]GPUResult;
 
 		//CPU--------------------------------------------------------------------------------------------------------------------------------------------------;
 		for (int i = Vecindex.x; i <= Vecindex.y; ++i) {

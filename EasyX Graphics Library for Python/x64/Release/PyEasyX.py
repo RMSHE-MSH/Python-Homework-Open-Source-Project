@@ -254,20 +254,27 @@ for i in range(0, 600):
 k = 0
 setlinecolor(RGB(97, 175, 239))
 setlinestyle(1)
-for i in range(0, 801, 1):
-    for j in range(0, 801, 1):
+for i in range(200, 600, 13):
+    for j in range(200, 600, 13):
         setfillcolor(HSVtoRGB(179*abs(1+sin(k)), 0.7, 1+cos(k)))
         setlinecolor(HSVtoRGB(179*abs(1+sin(k)), 0.7, 1+cos(k)))
-        fillcircle(j, i, 1)
+        fillcircle(j, i, 4)
         k += 0.01*(i+j)
 
 
 #translation([0, size()-1], [-400, -400])
 # refresh()
 FlushBatchDraw()
-sleep(10)
+sleep(2)
 
+i = 0
+while 1:
+    i += 0.3
+    cleardevice()
+    rotate([0, size()-1], pi/180*i, [400, 400])
+    FlushBatchDraw()
 
+"""
 i = 0
 while True:
     i += 0.1
@@ -281,6 +288,7 @@ while True:
     FlushBatchDraw()
     rotate([0, size()-1], -pi/180*(180*sin(i)+180), [400, 400])
     resize([0, size()-1], 1/f, [400, 400])
+"""
 
 """
 k = 0
