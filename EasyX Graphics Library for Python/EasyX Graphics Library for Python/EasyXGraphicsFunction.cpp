@@ -91,6 +91,8 @@ public:
 				fillellipse(iterator.PointStack[0].x, iterator.PointStack[0].y, iterator.PointStack[1].x, iterator.PointStack[1].y); break;
 			case FILLPIE:
 				fillpie(iterator.PointStack[0].x, iterator.PointStack[0].y, iterator.PointStack[1].x, iterator.PointStack[1].y, iterator.ShapeStack[0], iterator.ShapeStack[1]); break;
+			case LINE:
+				line(iterator.PointStack[0].x, iterator.PointStack[0].y, iterator.PointStack[1].x, iterator.PointStack[1].y); break;
 			case PIXEL:
 				putpixel(iterator.PointStack[0].x, iterator.PointStack[0].y, iterator.ColorStack.fillColor); break;
 			default:
@@ -133,7 +135,7 @@ public:
 
 	void rotate(POINT Vecindex = { 0,0 }, float angle = 0.0, POINT Base = { 0,0 }) {
 		//GPU;
-		int VEC_STACK_CPU_Size = Vecindex.y - Vecindex.x;
+		/*int VEC_STACK_CPU_Size = Vecindex.y - Vecindex.x;
 
 		float **PointStack_CPU = new float *[VEC_STACK_CPU_Size] {NULL};
 
@@ -147,7 +149,7 @@ public:
 			}
 		}
 
-		float **PointStack_GPU = GPU_rotate(PointStack_CPU, num, angle, Base);
+		float **PointStack_GPU = GPU_rotate(PointStack_CPU, num, angle, Base);*/
 
 		////free PointStack_GPU;
 
@@ -160,19 +162,19 @@ public:
 		//delete[Vecindex.y - Vecindex.x]PointStack_GPU; PointStack_GPU = NULL;
 
 		//CPU--------------------------------------------------------------------------------------------------------------------------------------------------;
-		//for (int i = Vecindex.x; i <= Vecindex.y; ++i) {
-		//	vector<FLOAT_POINT> TEMP{};
+		for (int i = Vecindex.x; i <= Vecindex.y; ++i) {
+			vector<FLOAT_POINT> TEMP{};
 
-		//	//坐标点旋转;
-		//	for (auto iterator = VEC_STACK[i].PointStack.begin(); iterator < VEC_STACK[i].PointStack.end(); ++iterator) {
-		//		float newX = (*iterator).x * cos(angle) - (*iterator).y * sin(angle) + Base.x * (1 - cos(angle)) + Base.y * sin(angle);
-		//		float newY = (*iterator).x * sin(angle) + (*iterator).y * cos(angle) + Base.y * (1 - cos(angle)) - Base.x * sin(angle);
+			//坐标点旋转;
+			for (auto iterator = VEC_STACK[i].PointStack.begin(); iterator < VEC_STACK[i].PointStack.end(); ++iterator) {
+				float newX = (*iterator).x * cos(angle) - (*iterator).y * sin(angle) + Base.x * (1 - cos(angle)) + Base.y * sin(angle);
+				float newY = (*iterator).x * sin(angle) + (*iterator).y * cos(angle) + Base.y * (1 - cos(angle)) - Base.x * sin(angle);
 
-		//		TEMP.push_back({ newX, newY });
-		//	}
+				TEMP.push_back({ newX, newY });
+			}
 
-		//	VEC_STACK.at(i) = { VEC_STACK[i].TypeStack,TEMP,VEC_STACK[i].Radius,VEC_STACK[i].ShapeStack,VEC_STACK[i].ColorStack,VEC_STACK[i].StyleStack };
-		//}
+			VEC_STACK.at(i) = { VEC_STACK[i].TypeStack,TEMP,VEC_STACK[i].Radius,VEC_STACK[i].ShapeStack,VEC_STACK[i].ColorStack,VEC_STACK[i].StyleStack };
+		}
 	}
 
 	void Perspective() {}
@@ -321,6 +323,8 @@ void c_fillpie(float left, float top, float right, float bottom, float stangle, 
 	fillpie(left, top, right, bottom, stangle, endangle);
 	VecStack.push(FILLPIE, { {left,top},{right,bottom} }, { NULL }, { stangle, endangle });
 }
+
+void c_line(float x1, float y1, float x2, float y2) { line(x1, y1, x2, y2); VecStack.push(LINE, { {x1,y1},{x2,y2} }, { NULL }, { NULL }); }
 
 void c_putpixel(float x, float y) { putpixel(x, y, getfillcolor()); VecStack.push(PIXEL, { { x,y } }, { NULL }, { NULL }); }
 

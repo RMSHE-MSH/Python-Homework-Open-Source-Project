@@ -84,7 +84,7 @@ float **GPU_rotate(float **PointStack, int num, float angle, POINT Base) {
 
 	//new space;
 	size_t pitch;
-	cudaMallocPitch((void **)&PointStack_GPU, &pitch, width * sizeof(float), height);
+	//cudaMallocPitch((void **)&PointStack_GPU, &pitch, width * sizeof(float), height);
 	//cudaMallocPitch((void **)&PointStack_GPU, num * sizeof(float));
 
 	//copy data CPU -> GPU;

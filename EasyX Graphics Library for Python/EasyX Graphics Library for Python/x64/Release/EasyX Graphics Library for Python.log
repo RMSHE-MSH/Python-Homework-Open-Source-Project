@@ -3,13 +3,136 @@
   F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python>"E:\Application\NVIDIA GPU Computing Toolkit\CUDA11.7\bin\nvcc.exe" -gencode=arch=compute_52,code=\"sm_52,compute_52\" --use-local-env -ccbin "E:\Application\Microsoft Visual Studio 2022\VC\Tools\MSVC\14.33.31629\bin\HostX64\x64" -x cu   -I"E:\Application\NVIDIA GPU Computing Toolkit\CUDA11.7\include" -I"E:\Application\NVIDIA GPU Computing Toolkit\CUDA11.7\include"     --keep-dir x64\Release  -maxrregcount=0  --machine 64 --compile -cudart static    -DNDEBUG -DEASYXGRAPHICSLIBRARYFORPYTHON_EXPORTS -D_WINDOWS -D_USRDLL -D_WINDLL -D_UNICODE -DUNICODE -Xcompiler "/EHsc /W3 /nologo /O2 /Fdx64\Release\vc143.pdb /FS   /MD " -o "F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\x64\Release\CUDA.cu.obj" "F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\CUDA.cu" 
 F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\CUDA.cu(75): warning #177-D: variable "i" was declared but never referenced
   
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\CUDA.cu(86): warning #177-D: variable "pitch" was declared but never referenced
+  
   CUDA.cu
-F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\CUDA.cu(87): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
-F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\CUDA.cu(87): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\CUDA.cu(86): warning C4101: “pitch”: 未引用的局部变量
+  EasyXGraphicsFunction.cpp
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(62,82): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(67,109): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(67,83): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(67,57): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(67,31): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(69,81): warning C4244: “参数”: 从“_Ty”转换到“int”，可能丢失数据
+          with
+          [
+              _Ty=float
+          ]
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(69,60): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(69,34): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(71,86): warning C4244: “参数”: 从“_Ty”转换到“int”，可能丢失数据
+          with
+          [
+              _Ty=float
+          ]
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(71,65): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(71,39): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(73,118): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(73,92): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(73,66): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(73,40): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(75,114): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(75,88): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(75,62): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(75,36): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(83,120): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(83,94): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(83,68): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(83,42): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(85,169): warning C4244: “参数”: 从“_Ty”转换到“int”，可能丢失数据
+          with
+          [
+              _Ty=float
+          ]
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(85,145): warning C4244: “参数”: 从“_Ty”转换到“int”，可能丢失数据
+          with
+          [
+              _Ty=float
+          ]
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(85,120): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(85,94): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(85,68): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(85,42): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(87,113): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(87,87): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(87,61): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(87,35): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(89,85): warning C4244: “参数”: 从“_Ty”转换到“int”，可能丢失数据
+          with
+          [
+              _Ty=float
+          ]
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(89,64): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(89,38): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(91,117): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(91,91): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(91,65): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(91,39): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(93,113): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(93,87): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(93,61): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(93,35): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(95,110): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(95,84): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(95,58): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(95,32): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(97,62): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(97,36): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(276,22): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(283,24): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(283,17): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(283,12): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(283,6): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(287,62): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(287,59): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(287,56): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(289,72): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(289,69): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(289,66): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(292,33): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(292,26): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(292,21): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(292,15): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(297,29): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(297,22): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(297,17): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(297,11): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(309,108): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(309,101): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(309,96): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(309,90): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(312,57): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(312,43): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(312,35): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(312,28): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(312,23): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(312,17): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(316,94): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(316,87): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(316,82): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(316,76): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(318,70): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(318,67): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(318,64): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(320,102): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(320,95): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(320,90): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(320,84): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(323,28): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(323,21): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(323,16): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(323,10): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(327,72): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(327,68): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(327,64): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(327,60): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(329,49): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\EasyX Graphics Library for Python\EasyXGraphicsFunction.cpp(329,46): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
     正在创建库 F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\x64\Release\EasyX Graphics Library for Python.lib 和对象 F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\x64\Release\EasyX Graphics Library for Python.exp
 LINK : warning LNK4098: 默认库“LIBCMT”与其他库的使用冲突；请使用 /NODEFAULTLIB:library
   正在生成代码
-  Previous IPDB and IOBJ mismatch, fall back to full compilation.
-  All 356 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  5 of 359 functions ( 1.4%) were compiled, the rest were copied from previous compilation.
+    1 functions were new in current compilation
+    23 functions had inline decision re-evaluated but remain unchanged
   已完成代码的生成
   EasyX Graphics Library for Python.vcxproj -> F:\Subject\Python\Python-Homework-Open-Source-Project\EasyX Graphics Library for Python\x64\Release\EasyX Graphics Library for Python.dll

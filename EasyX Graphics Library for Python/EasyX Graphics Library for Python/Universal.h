@@ -55,6 +55,7 @@ using namespace std;
 #define FILLELLIPSE 11
 #define FILLPIE 12
 
+#define LINE 20
 #define PIXEL 13
 
 #endif

@@ -218,6 +218,10 @@ def fillpie(left, top, right, bottom,  stangle=0, endangle=2*pi):
     pDll.c_fillpie(c_float(left), c_float(top), c_float(right), c_float(bottom), c_float(stangle), c_float(endangle))
 
 
+def line(x1, y1, x2, y2):
+    pDll.c_line(c_float(x1), c_float(y1), c_float(x2), c_float(y2))
+
+
 def putpixel(x, y):
     pDll.c_putpixel(c_float(x), c_float(y))
 
@@ -247,32 +251,36 @@ for i in range(0, 600):
         setfillcolor(HSVtoRGB(179*abs(1+sin(k)), 0.7, 0.8))
     k += 0.001
 """
-
+k = 0
 setlinecolor(RGB(97, 175, 239))
 setlinestyle(1)
-for i in range(0, 801, 40):
-    for j in range(0, 801, 40):
-        fillcircle(j, i, 2)
+for i in range(0, 801, 1):
+    for j in range(0, 801, 1):
+        setfillcolor(HSVtoRGB(179*abs(1+sin(k)), 0.7, 1+cos(k)))
+        setlinecolor(HSVtoRGB(179*abs(1+sin(k)), 0.7, 1+cos(k)))
+        fillcircle(j, i, 1)
+        k += 0.01*(i+j)
 
 
-#translation([0, 2], [-100, -100])
+#translation([0, size()-1], [-400, -400])
 # refresh()
 FlushBatchDraw()
-sleep(2)
+sleep(10)
 
-rotate([0, size()-1], pi/180*45, [400, 400])
-#refresh()
-FlushBatchDraw()
 
-"""
 i = 0
 while True:
-    i += 0.001
+    i += 0.1
+    f = 2*sin(i)
+    if (f == 0):
+        f += 0.001
+
     rotate([0, size()-1], pi/180*(180*sin(i)+180), [400, 400])
+    resize([0, size()-1], f, [400, 400])
     refresh()
     FlushBatchDraw()
     rotate([0, size()-1], -pi/180*(180*sin(i)+180), [400, 400])
-"""
+    resize([0, size()-1], 1/f, [400, 400])
 
 """
 k = 0

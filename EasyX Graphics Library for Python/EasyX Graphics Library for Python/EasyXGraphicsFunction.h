@@ -97,6 +97,8 @@ EASYX_API void c_fillellipse(float left, float top, float right, float bottom);
 
 EASYX_API void c_fillpie(float left, float top, float right, float bottom, float stangle, float endangle);
 
+EASYX_API void c_line(float x1, float y1, float x2, float y2);
+
 EASYX_API void c_putpixel(float x, float y);
 
 //其它函数;
