@@ -6,6 +6,8 @@
 
 //VectorStack(图形矢量堆栈)相关函数;
 
+EASYX_API void c_free_vecstack();
+
 EASYX_API long long int c_size_vecstack();
 
 EASYX_API void c_pop_vecstack();
@@ -96,6 +98,10 @@ EASYX_API void c_fillcircle(float x, float y, float radius);
 EASYX_API void c_fillellipse(float left, float top, float right, float bottom);
 
 EASYX_API void c_fillpie(float left, float top, float right, float bottom, float stangle, float endangle);
+
+EASYX_API void c_fillpolygon(float points[], int num);
+
+EASYX_API void c_fillrectangle(float left, float top, float right, float bottom);
 
 EASYX_API void c_line(float x1, float y1, float x2, float y2);
 

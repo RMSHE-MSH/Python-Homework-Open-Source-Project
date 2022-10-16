@@ -1,6 +1,8 @@
 ﻿#include "pch.h"
 #include "EasyXGraphicsFunction.h"
 #include "CUDA.cuh"
+#include <opencv2/opencv.hpp>
+using namespace cv;
 
 //VectorStack Struct;
 typedef struct FLOAT_POINT { float x; float y; }FLOAT_POINT;
@@ -91,6 +93,12 @@ public:
 				fillellipse(iterator.PointStack[0].x, iterator.PointStack[0].y, iterator.PointStack[1].x, iterator.PointStack[1].y); break;
 			case FILLPIE:
 				fillpie(iterator.PointStack[0].x, iterator.PointStack[0].y, iterator.PointStack[1].x, iterator.PointStack[1].y, iterator.ShapeStack[0], iterator.ShapeStack[1]); break;
+			case FILLPOLYGON: {
+				POINT *pts = new POINT[iterator.PointStack.size()];
+
+				for (int j = 0; j < iterator.PointStack.size(); ++j) pts[j] = { (int)iterator.PointStack[j].x ,(int)iterator.PointStack[j].y };
+
+				fillpolygon(pts, int(iterator.ShapeStack[0]));  delete[]pts; break; }
 			case LINE:
 				line(iterator.PointStack[0].x, iterator.PointStack[0].y, iterator.PointStack[1].x, iterator.PointStack[1].y); break;
 			case PIXEL:
@@ -149,31 +157,29 @@ public:
 			}
 		}*/
 
-		//int VecStackSize = Vecindex.y - Vecindex.x;
+		/*vector<float> POINT_STACK;
+		for (int i = Vecindex.x; i <= Vecindex.y; ++i) {
+			for (auto j = VEC_STACK[i].PointStack.begin(); j < VEC_STACK[i].PointStack.end(); ++j) { POINT_STACK.push_back((*j).x); POINT_STACK.push_back((*j).y); }
+		}
 
-		//vector<float> POINT_STACK;
-		//for (int i = Vecindex.x; i <= Vecindex.y; ++i) {
-		//	for (auto j = VEC_STACK[i].PointStack.begin(); j < VEC_STACK[i].PointStack.end(); ++j) { POINT_STACK.push_back((*j).x); POINT_STACK.push_back((*j).y); }
-		//}
+		float *PointStack_CPU = new float [POINT_STACK.size()] {};
+		int k = 0; for (auto i = POINT_STACK.begin(); i < POINT_STACK.end(); ++i, ++k) PointStack_CPU[k] = (*i);
 
-		//float *PointStack_CPU = new float [POINT_STACK.size()] {};
-		//int k = 0; for (auto i = POINT_STACK.begin(); i < POINT_STACK.end(); ++i, ++k) PointStack_CPU[k] = (*i);
+		//cout << int(0.5 * POINT_STACK.size()) << endl;
 
-		////cout << int(0.5 * POINT_STACK.size()) << endl;
+		float *GPUResult = GPU_rotate(PointStack_CPU, int(0.5 * POINT_STACK.size()), angle, Base);
 
-		//float *GPUResult = GPU_rotate(PointStack_CPU, int(0.5 * POINT_STACK.size()), angle, Base);
+		setlinecolor(RGB(97, 175, 239));
+		setfillcolor(RGB(97, 175, 239));
+		for (int i = 0; i < POINT_STACK.size(); ++i) {
+			//cout << GPUResult[i] << endl;
+			fillcircle(GPUResult[i], GPUResult[i + 1], 2);
+		}
 
-		//setlinecolor(RGB(97, 175, 239));
-		//setfillcolor(RGB(97, 175, 239));
-		//for (int i = 0; i < POINT_STACK.size(); ++i) {
-		//	//cout << GPUResult[i] << endl;
-		//	fillcircle(GPUResult[i], GPUResult[i + 1], 2);
-		//}
-
-		////释放内存;
-		//POINT_STACK.clear(); vector<float>().swap(POINT_STACK);
-		//delete[]PointStack_CPU;
-		//delete[]GPUResult;
+		//释放内存;
+		POINT_STACK.clear(); vector<float>().swap(POINT_STACK);
+		delete[]PointStack_CPU;
+		delete[]GPUResult;*/
 
 		//CPU--------------------------------------------------------------------------------------------------------------------------------------------------;
 		for (int i = Vecindex.x; i <= Vecindex.y; ++i) {
@@ -191,10 +197,12 @@ public:
 		}
 	}
 
-	void Perspective() {}
+	void Affine() {}
 }VecStack;
 
 //VectorStack(图形矢量堆栈)相关函数;
+
+void c_free_vecstack() { VecStack.free(); }
 
 long long int c_size_vecstack() { return VecStack.VEC_STACK.size(); }
 
@@ -313,11 +321,19 @@ void c_clearpie(float left, float top, float right, float bottom, float stangle,
 }
 
 void c_clearpolygon(float points[], int num) {
-	int _num = int(0.5 * num); clearpolygon((POINT *)points, _num);
+	int _num = int(0.5 * num);
 
-	vector<FLOAT_POINT> _points; for (int i = 0; i < num; i += 2) _points.push_back({ points[i],points[i + 1] });
+	POINT *pts = new POINT[_num]; vector<FLOAT_POINT> _points;
 
-	VecStack.push(CL_POLYGON, _points, { NULL }, { float(_num) });
+	int j = 0; for (int i = 0; i < num; i += 2, ++j) {
+		pts[j] = { (int)points[i] ,(int)points[i + 1] };
+		_points.push_back({ points[i],points[i + 1] });
+	}
+
+	clearpolygon(pts, _num);
+	VecStack.push(FILLPOLYGON, _points, { NULL }, { float(_num) });
+
+	delete[]pts;
 }
 
 void c_clearrectangle(float left, float top, float right, float bottom) { clearrectangle(left, top, right, bottom); VecStack.push(CL_RECT, { {left,top},{right,bottom} }, { NULL }, { NULL }); }
@@ -336,6 +352,28 @@ void c_fillellipse(float left, float top, float right, float bottom) { fillellip
 void c_fillpie(float left, float top, float right, float bottom, float stangle, float endangle) {
 	fillpie(left, top, right, bottom, stangle, endangle);
 	VecStack.push(FILLPIE, { {left,top},{right,bottom} }, { NULL }, { stangle, endangle });
+}
+
+void c_fillpolygon(float points[], int num) {
+	int _num = int(0.5 * num);
+
+	POINT *pts = new POINT[_num]; vector<FLOAT_POINT> _points;
+
+	int j = 0; for (int i = 0; i < num; i += 2, ++j) {
+		pts[j] = { (int)points[i] ,(int)points[i + 1] };
+		_points.push_back({ points[i],points[i + 1] });
+	}
+
+	fillpolygon(pts, _num);
+	VecStack.push(FILLPOLYGON, _points, { NULL }, { float(_num) });
+
+	delete[]pts;
+}
+
+void c_fillrectangle(float left, float top, float right, float bottom) {
+	POINT pts[] = { {left,top },{right,top},{right,bottom },{left,bottom} }; fillpolygon(pts, 4);
+
+	VecStack.push(FILLPOLYGON, { {left,top },{right,top},{right,bottom },{left,bottom} }, { NULL }, { float(4) });
 }
 
 void c_line(float x1, float y1, float x2, float y2) { line(x1, y1, x2, y2); VecStack.push(LINE, { {x1,y1},{x2,y2} }, { NULL }, { NULL }); }

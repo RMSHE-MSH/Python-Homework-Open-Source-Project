@@ -44,16 +44,18 @@ using namespace std;
 
 #define ARC 0
 #define CIRCLE 1
-#define CL_CIRCLE 3
-#define CL_ELLIPSE 4
-#define CL_PIE 5
-#define CL_POLYGON 6
-#define CL_RECT 7
-#define CL_ROUNDRECT 8
-#define ELLIPSE 9
-#define FILLCIRCLE 10
-#define FILLELLIPSE 11
-#define FILLPIE 12
+#define CL_CIRCLE 2
+#define CL_ELLIPSE 3
+#define CL_PIE 4
+#define CL_POLYGON 5
+#define CL_RECT 6
+#define CL_ROUNDRECT 7
+#define ELLIPSE 8
+#define FILLCIRCLE 9
+#define FILLELLIPSE 10
+#define FILLPIE 11
+#define FILLPOLYGON 12
+#define FILLRECT 13
 
 #define LINE 20
 #define PIXEL 13

@@ -218,6 +218,14 @@ def fillpie(left, top, right, bottom,  stangle=0, endangle=2*pi):
     pDll.c_fillpie(c_float(left), c_float(top), c_float(right), c_float(bottom), c_float(stangle), c_float(endangle))
 
 
+def fillpolygon(points=()):
+    pDll.c_fillpolygon((c_float*len(points))(*points), len(points))
+
+
+def fillrectangle(left, top, right, bottom):
+    pDll.c_fillrectangle(c_float(left), c_float(top), c_float(right), c_float(bottom))
+
+
 def line(x1, y1, x2, y2):
     pDll.c_line(c_float(x1), c_float(y1), c_float(x2), c_float(y2))
 
@@ -254,30 +262,19 @@ for i in range(0, 600):
 k = 0
 setlinecolor(RGB(97, 175, 239))
 setlinestyle(1)
-for i in range(200, 600, 13):
-    for j in range(200, 600, 13):
-        setfillcolor(HSVtoRGB(179*abs(1+sin(k)), 0.7, 1+cos(k)))
-        setlinecolor(HSVtoRGB(179*abs(1+sin(k)), 0.7, 1+cos(k)))
+for i in range(0, 801, 40):
+    for j in range(0, 801, 40):
         fillcircle(j, i, 4)
-        k += 0.01*(i+j)
 
+fillrectangle(400,400,600,500)
 
-#translation([0, size()-1], [-400, -400])
-# refresh()
 FlushBatchDraw()
 sleep(2)
 
-i = 0
-while 1:
-    i += 0.3
-    cleardevice()
-    rotate([0, size()-1], pi/180*i, [400, 400])
-    FlushBatchDraw()
 
-"""
 i = 0
 while True:
-    i += 0.1
+    i += 0.01
     f = 2*sin(i)
     if (f == 0):
         f += 0.001
@@ -288,7 +285,6 @@ while True:
     FlushBatchDraw()
     rotate([0, size()-1], -pi/180*(180*sin(i)+180), [400, 400])
     resize([0, size()-1], 1/f, [400, 400])
-"""
 
 """
 k = 0

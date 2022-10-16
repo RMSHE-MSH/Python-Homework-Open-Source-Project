@@ -126,6 +126,13 @@ float *GPU_rotate(float *PointStack_CPU, int PointStackSize, float angle, POINT 
 	int _X = 0; for (int i = 0; i < PointStackSize; ++i, _X += 2) GPU_Result[_X] = GPU_X_Result[i];
 	int _Y = 1; for (int i = 0; i < PointStackSize; ++i, _Y += 2) GPU_Result[_Y] = GPU_Y_Result[i];
 
+	//ÊÍ·ÅÄÚ´æ;
+	delete[]GPU_X_Result;
+	delete[]GPU_Y_Result;
+
+	delete[]PointStack_X_CPU;
+	delete[]PointStack_Y_CPU;
+
 	//ÊÍ·ÅÏÔ´æ;
 	cudaFree(PointStack_X_GPU);
 	cudaFree(PointStack_Y_GPU);
