@@ -380,6 +380,14 @@ void c_line(float x1, float y1, float x2, float y2) { line(x1, y1, x2, y2); VecS
 
 void c_putpixel(float x, float y) { putpixel(x, y, getfillcolor()); VecStack.push(PIXEL, { { x,y } }, { NULL }, { NULL }); }
 
+//图像处理相关函数;
+
+void c_loadimage(const char *path) {
+	Mat pic = imread(path);
+	imshow("picture", pic);
+	waitKey();
+}
+
 //其它函数;
 
 void c_BeginBatchDraw() { BeginBatchDraw(); }

@@ -107,6 +107,10 @@ EASYX_API void c_line(float x1, float y1, float x2, float y2);
 
 EASYX_API void c_putpixel(float x, float y);
 
+//图像处理相关函数;
+
+EASYX_API void c_loadimage(const char *path);
+
 //其它函数;
 
 EASYX_API void c_BeginBatchDraw();
