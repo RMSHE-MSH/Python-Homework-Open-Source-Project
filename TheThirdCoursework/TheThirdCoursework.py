@@ -46,3 +46,9 @@ def WordFrequencyCount(filePath: str, lengthThreshold: int = 1, frequencyThresho
 
 
 print(tabulate(WordFrequencyCount(FilePath, 4, 6, Exclude), headers='firstrow', tablefmt='fancy_grid', showindex=True))
+
+# 解释:
+# 1. filePath: 文本文件路径(注: 文本文件必须是 UTF-8 编码, 否则可能报错);
+# 2. lengthThreshold: 单词长度阈值, 当单词长度小于等于该值时自动被排除(不统计);
+# 3. frequencyThreshold: 单词频率阈值, 当词频大于等于该值时才会被统计;
+# 4. exclude: 需要排除单词的列表(不分大小写), 出现在该列表中的单词会被排除(不统计);
