@@ -1,11 +1,11 @@
 # WordFrequencyCount - TheThirdCoursework;
 # Powered by RMSHE / 2022.10.27.Mark0;
-# OpenSource:
+# OpenSource: https://github.com/RMSHE-MSH/Python-Homework-Open-Source-Project
 import jieba
 from tabulate import tabulate
 
 # 文件路径;
-FilePath = "./2015&2019英语四级真题.txt"
+FilePath = "./TheThirdCoursework/2015&2019英语四级真题.txt"
 # 需要排除的单词(不分大小写);
 Exclude = [
     "a", "the", "are", "and", "or", "not", "is", "was", "has", "from", "rmshe", "we", "me", "who", "you", "that", "than", "for", "in", "on", "this", "one",
@@ -24,16 +24,16 @@ def WordFrequencyCount(filePath: str, lengthThreshold: int = 1, frequencyThresho
     with open(filePath, encoding='utf-8') as file:
         wordsList = jieba.lcut(file.read())  # 将文件读取到列表;
 
-    count = {}
+    CountRmshe = {}
     for word in wordsList:
         # 首字母转为大写;
         word = word.capitalize()
         # 排除长度小于等于"threshold"的单词,排除中文词语,排除常见单词,排除非字母字符;
         if not (len(word) <= lengthThreshold or '\u4e00' <= word <= '\u9fff' or isExclude(word, exclude) or not word.isalpha()):
-            count[word] = count.get(word, 0) + 1  # 统计词频
+            CountRmshe[word] = CountRmshe.get(word, 0) + 1  # 统计词频
 
     # 将字典中的键值对转化为列表后按照词频从大到小排列;
-    countList = list(count.items())
+    countList = list(CountRmshe.items())
     countList.sort(key=lambda x: x[1], reverse=True)
 
     countList2 = [('KeyWord', 'Frequency')]
@@ -45,4 +45,4 @@ def WordFrequencyCount(filePath: str, lengthThreshold: int = 1, frequencyThresho
     return countList2
 
 
-print(tabulate(WordFrequencyCount(FilePath, 4, 4, Exclude), headers='firstrow', tablefmt='fancy_grid', showindex=True))
+print(tabulate(WordFrequencyCount(FilePath, 4, 6, Exclude), headers='firstrow', tablefmt='fancy_grid', showindex=True))
