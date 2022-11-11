@@ -4,9 +4,7 @@
 
 ## 最新消息
 
-### [2022.10.27] 作业已更新: TheThirdCoursework(WordFrequencyCount)
-
-![WordFrequencyCount_OutPut.png](https://raw.githubusercontent.com/RMSHE-MSH/Python-Homework-Open-Source-Project/master/IMG/WordFrequencyCount_OutPut.png)
+### [2022.11.9] 完结撒花!!!
 
 ***
 

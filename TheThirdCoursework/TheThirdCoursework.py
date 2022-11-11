@@ -5,7 +5,7 @@ import jieba
 from tabulate import tabulate
 
 # 文件路径;
-FilePath = "./TheThirdCoursework/2015&2019英语四级真题.txt"
+FilePath = "./2015&2019英语四级真题.txt"
 # 需要排除的单词(不分大小写);
 Exclude = [
     "a", "the", "are", "and", "or", "not", "is", "was", "has", "from", "rmshe", "we", "me", "who", "you", "that", "than", "for", "in", "on", "this", "one",
